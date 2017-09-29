@@ -5,8 +5,8 @@ let screens = [];
 const ARROW_LEFT_KEY = 37;
 const ARROW_RIGHT_KEY = 39;
 
-screensArray.map(screenTemplate => {
-  return screens.push(screenTemplate.innerHTML);
+screens = screensArray.map(screenTemplate => {
+  return screenTemplate.innerHTML;
 });
 
 let lastScreenIndex = screens.length - 1;
@@ -18,11 +18,11 @@ showScreen(index);
 
 document.addEventListener(`keydown`, (e) => {
   if (e.altKey && e.keyCode === ARROW_LEFT_KEY) {
-    index = (index > 0) ? index - 1 : lastScreenIndex;
+    index = (index > 0) ? --index : lastScreenIndex;
     showScreen(index);
   }
   if (e.altKey && e.keyCode === ARROW_RIGHT_KEY) {
-    index = (index < lastScreenIndex) ? index + 1 : 0;
+    index = (index < lastScreenIndex) ? ++index : 0;
     showScreen(index);
   }
 });
