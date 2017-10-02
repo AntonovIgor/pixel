@@ -1,7 +1,6 @@
-/**
- * Created by Cannibal on 30.09.2017.
- */
 import {getElementFromTemplate} from './get-element-from-template';
+import {showScreen} from './show-screen';
+import screenIntro from './screen-intro';
 
 const templateStats = `
   <header class="header">
@@ -124,11 +123,9 @@ const templateStats = `
   </footer>`.trim();
 
 const screenStats = getElementFromTemplate(templateStats);
-
-let continueButton = screenGreeting.querySelector(`.greeting__continue`);
-
-continueButton.onclick = () => {
-
+const buttonBack = screenStats.querySelector(`.back`);
+buttonBack.onclick = () => {
+  showScreen(screenIntro);
 };
 
 export default screenStats;

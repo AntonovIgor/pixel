@@ -1,7 +1,7 @@
-/**
- * Created by Cannibal on 30.09.2017.
- */
 import {getElementFromTemplate} from './get-element-from-template';
+import {showScreen} from './show-screen';
+import screenGameThree from './screen-game-three';
+import screenIntro from './screen-intro';
 
 const templateGameTwo = `
   <header class="header">
@@ -60,5 +60,12 @@ const templateGameTwo = `
   </footer>`.trim();
 
 const screenGameTwo = getElementFromTemplate(templateGameTwo);
+const gameForm = screenGameTwo.querySelector(`.game__content`);
+const buttonBack = screenGameTwo.querySelector(`.back`);
+buttonBack.onclick = () => showScreen(screenIntro);
+gameForm.onchange = () => {
+  showScreen(screenGameThree);
+};
+
 
 export default screenGameTwo;

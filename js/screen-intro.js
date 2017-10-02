@@ -1,6 +1,3 @@
-/**
- * Created by Cannibal on 30.09.2017.
- */
 import {getElementFromTemplate} from './get-element-from-template';
 import {showScreen} from './show-screen';
 import screenGreeting from './screen-greeting';
@@ -25,7 +22,7 @@ const templateIntro = `
 
 const screenIntro = getElementFromTemplate(templateIntro);
 
-let continueButton = screenIntro.querySelector(`.intro__asterisk`);
+const continueButton = screenIntro.querySelector(`.intro__asterisk`);
 
 continueButton.onclick = () => {
   showScreen(screenGreeting);

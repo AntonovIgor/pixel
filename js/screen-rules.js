@@ -1,9 +1,7 @@
-/**
- * Created by Cannibal on 30.09.2017.
- */
 import {getElementFromTemplate} from './get-element-from-template';
 import {showScreen} from './show-screen';
 import screenGameOne from './screen-game-one';
+import screenIntro from './screen-intro';
 
 const templateRules = `
   <header class="header">
@@ -46,9 +44,12 @@ const screenRules = getElementFromTemplate(templateRules);
 const playForm = screenRules.querySelector(`.rules__form`);
 const playerNameField = playForm.querySelector(`.rules__input`);
 const continueButton = playForm.querySelector(`.continue`);
+const buttonBack = screenRules.querySelector(`.back`);
+buttonBack.onclick = () => {
+  showScreen(screenIntro);
+};
 
 playerNameField.oninput = () => {
-  debugger;
   if (playerNameField.value !== '') {
     continueButton.removeAttribute(`disabled`);
   } else {

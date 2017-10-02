@@ -1,8 +1,7 @@
-/**
- * Created by Cannibal on 30.09.2017.
- */
 import {getElementFromTemplate} from './get-element-from-template';
 import {showScreen} from './show-screen';
+import screenGameTwo from './screen-game-two';
+import screenIntro from './screen-intro';
 
 const templateGameOne = `
   <header class="header">
@@ -72,6 +71,16 @@ const templateGameOne = `
   </footer>`.trim();
 
 const screenGameOne = getElementFromTemplate(templateGameOne);
-const gameOption = screenGameOne.querySelector(`.game__option input[type="radio"]`);
+const gameForm = screenGameOne.querySelector(`.game__content`);
+const gameOptions = screenGameOne.querySelectorAll(`.game__option`);
+const buttonBack = screenGameOne.querySelector(`.back`);
+buttonBack.onclick = () => showScreen(screenIntro);
+
+gameForm.onchange = () => {
+  let checkedOption = gameForm.querySelectorAll(`input[type="radio"]:checked`);
+  if (checkedOption.length == gameOptions.length) {
+    showScreen(screenGameTwo);
+  }
+};
 
 export default screenGameOne;
