@@ -63,6 +63,10 @@ const buttonBack = screenGameThree.querySelector(`.back`);
 
 buttonBack.onclick = () => showScreen(screenGreeting);
 
-gameOptions.forEach(option => option.onclick = () => showScreen(screenStats));
+gameOptions.forEach((option) => {
+  option.onclick = () => {
+    showScreen(screenStats);
+  };
+});
 
 export default screenGameThree;

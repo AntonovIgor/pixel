@@ -79,7 +79,7 @@ buttonBack.onclick = () => showScreen(screenGreeting);
 
 gameForm.onchange = () => {
   let checkedOption = gameForm.querySelectorAll(`input[type="radio"]:checked`);
-  if (checkedOption.length == gameOptions.length) {
+  if (checkedOption.length === gameOptions.length) {
     showScreen(screenGameTwo);
   }
 };
