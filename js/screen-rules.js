@@ -48,7 +48,7 @@ const buttonBack = screenRules.querySelector(`.back`);
 buttonBack.onclick = () => showScreen(screenGreeting);
 
 playerNameField.oninput = () => {
-  if (playerNameField.value !== '') {
+  if (playerNameField.value !== ``) {
     continueButton.removeAttribute(`disabled`);
   } else {
     continueButton.setAttribute(`disabled`, `disabled`);
