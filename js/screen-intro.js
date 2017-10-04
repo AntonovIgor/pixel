@@ -21,11 +21,8 @@ const templateIntro = `
   </footer>`.trim();
 
 const screenIntro = getElementFromTemplate(templateIntro);
-
 const continueButton = screenIntro.querySelector(`.intro__asterisk`);
 
-continueButton.onclick = () => {
-  showScreen(screenGreeting);
-};
+continueButton.onclick = () => showScreen(screenGreeting);
 
 export default screenIntro;

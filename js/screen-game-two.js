@@ -1,7 +1,7 @@
 import {getElementFromTemplate} from './get-element-from-template';
 import {showScreen} from './show-screen';
 import screenGameThree from './screen-game-three';
-import screenIntro from './screen-intro';
+import screenGreeting from './screen-greeting';
 
 const templateGameTwo = `
   <header class="header">
@@ -62,10 +62,11 @@ const templateGameTwo = `
 const screenGameTwo = getElementFromTemplate(templateGameTwo);
 const gameForm = screenGameTwo.querySelector(`.game__content`);
 const buttonBack = screenGameTwo.querySelector(`.back`);
-buttonBack.onclick = () => showScreen(screenIntro);
+
+buttonBack.onclick = () => showScreen(screenGreeting);
+
 gameForm.onchange = () => {
   showScreen(screenGameThree);
 };
-
 
 export default screenGameTwo;

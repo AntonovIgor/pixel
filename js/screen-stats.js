@@ -1,6 +1,6 @@
 import {getElementFromTemplate} from './get-element-from-template';
 import {showScreen} from './show-screen';
-import screenIntro from './screen-intro';
+import screenGreeting from './screen-greeting';
 
 const templateStats = `
   <header class="header">
@@ -124,8 +124,7 @@ const templateStats = `
 
 const screenStats = getElementFromTemplate(templateStats);
 const buttonBack = screenStats.querySelector(`.back`);
-buttonBack.onclick = () => {
-  showScreen(screenIntro);
-};
+
+buttonBack.onclick = () => showScreen(screenGreeting);
 
 export default screenStats;

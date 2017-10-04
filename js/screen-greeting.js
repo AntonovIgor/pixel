@@ -1,6 +1,3 @@
-/**
- * Created by Cannibal on 30.09.2017.
- */
 import {getElementFromTemplate} from './get-element-from-template';
 import {showScreen} from './show-screen';
 import screenRules from './screen-rules';
@@ -31,10 +28,10 @@ const templateGreeting = `
   </footer>`.trim();
 
 const screenGreeting = getElementFromTemplate(templateGreeting);
-
-let continueButton = screenGreeting.querySelector(`.greeting__continue`);
+const continueButton = screenGreeting.querySelector(`.greeting__continue`);
 
 continueButton.onclick = () => {
   showScreen(screenRules);
 };
+
 export default screenGreeting;

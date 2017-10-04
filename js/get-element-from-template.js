@@ -1,5 +1,5 @@
-export const getElementFromTemplate = (htmlString) => {
-  const container = document.createElement(`template`);
-  container.innerHTML = htmlString;
-  return container.content;
+export const getElementFromTemplate = (template) => {
+  const container = document.createElement(`div`);
+  container.innerHTML = template;
+  return container;
 };

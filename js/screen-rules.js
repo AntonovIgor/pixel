@@ -1,7 +1,7 @@
 import {getElementFromTemplate} from './get-element-from-template';
 import {showScreen} from './show-screen';
 import screenGameOne from './screen-game-one';
-import screenIntro from './screen-intro';
+import screenGreeting from './screen-greeting';
 
 const templateRules = `
   <header class="header">
@@ -45,9 +45,7 @@ const playForm = screenRules.querySelector(`.rules__form`);
 const playerNameField = playForm.querySelector(`.rules__input`);
 const continueButton = playForm.querySelector(`.continue`);
 const buttonBack = screenRules.querySelector(`.back`);
-buttonBack.onclick = () => {
-  showScreen(screenIntro);
-};
+buttonBack.onclick = () => showScreen(screenGreeting);
 
 playerNameField.oninput = () => {
   if (playerNameField.value !== '') {
@@ -60,4 +58,5 @@ playerNameField.oninput = () => {
 playForm.onsubmit = () => {
   showScreen(screenGameOne);
 };
+
 export default screenRules;

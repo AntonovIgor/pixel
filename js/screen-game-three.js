@@ -1,7 +1,7 @@
 import {getElementFromTemplate} from './get-element-from-template';
 import {showScreen} from './show-screen';
 import screenStats from './screen-stats';
-import screenIntro from './screen-intro';
+import screenGreeting from './screen-greeting';
 
 const templateGameThree = `
   <header class="header">
@@ -60,11 +60,9 @@ const templateGameThree = `
 const screenGameThree = getElementFromTemplate(templateGameThree);
 const gameOptions = Array.from(screenGameThree.querySelectorAll(`.game__option`));
 const buttonBack = screenGameThree.querySelector(`.back`);
-buttonBack.onclick = () => showScreen(screenIntro);
-gameOptions.forEach(option => {
-  option.onclick = () => {
-    showScreen(screenStats);
-  };
-});
+
+buttonBack.onclick = () => showScreen(screenGreeting);
+
+gameOptions.forEach(option => option.onclick = () => showScreen(screenStats));
 
 export default screenGameThree;

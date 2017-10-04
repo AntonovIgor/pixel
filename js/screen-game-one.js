@@ -1,7 +1,7 @@
 import {getElementFromTemplate} from './get-element-from-template';
 import {showScreen} from './show-screen';
 import screenGameTwo from './screen-game-two';
-import screenIntro from './screen-intro';
+import screenGreeting from './screen-greeting';
 
 const templateGameOne = `
   <header class="header">
@@ -74,7 +74,8 @@ const screenGameOne = getElementFromTemplate(templateGameOne);
 const gameForm = screenGameOne.querySelector(`.game__content`);
 const gameOptions = screenGameOne.querySelectorAll(`.game__option`);
 const buttonBack = screenGameOne.querySelector(`.back`);
-buttonBack.onclick = () => showScreen(screenIntro);
+
+buttonBack.onclick = () => showScreen(screenGreeting);
 
 gameForm.onchange = () => {
   let checkedOption = gameForm.querySelectorAll(`input[type="radio"]:checked`);
