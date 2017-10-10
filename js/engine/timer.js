@@ -1,16 +1,11 @@
-export const timer = {
-
-  tick: (time) => {
-    const interval = setInterval(() => {
-      if (time > 0) {
-        time = time - 1;
-      } else {
-        stopFn();
-      }
-    }, 1);
-
-    const stopFn = () => {
-      clearInterval(interval);
-    };
-  }
+export const getTimer = (time) => {
+  return {
+    value: time,
+    tick() {
+      return getTimer(time + 1);
+    },
+    reset() {
+      return getTimer(0);
+    }
+  };
 };
