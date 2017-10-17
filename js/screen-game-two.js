@@ -3,6 +3,10 @@ import {showScreen} from './show-screen';
 import screenGameThree from './screen-game-three';
 import screenGreeting from './screen-greeting';
 import footer from './templates/footer';
+import {headerTemplate} from './templates/header';
+import {initialState} from './data/initialState';
+import {stats} from './templates/stats';
+import GAME_DATA from './data/game-data';
 
 const templateGameTwo = `
   <header class="header">
@@ -12,12 +16,7 @@ const templateGameTwo = `
         <img src="img/logo_small.svg" width="101" height="44">
       </button>
     </div>
-    <h1 class="game__timer">NN</h1>
-    <div class="game__lives">
-      <img src="img/heart__empty.svg" class="game__heart" alt="Life" width="32" height="32">
-      <img src="img/heart__full.svg" class="game__heart" alt="Life" width="32" height="32">
-      <img src="img/heart__full.svg" class="game__heart" alt="Life" width="32" height="32">
-    </div>
+    ${headerTemplate(initialState)}
   </header>
   <div class="game">
     <p class="game__task">Угадай, фото или рисунок?</p>
@@ -35,18 +34,7 @@ const templateGameTwo = `
       </div>
     </form>
     <div class="stats">
-      <ul class="stats">
-        <li class="stats__result stats__result--wrong"></li>
-        <li class="stats__result stats__result--slow"></li>
-        <li class="stats__result stats__result--fast"></li>
-        <li class="stats__result stats__result--correct"></li>
-        <li class="stats__result stats__result--wrong"></li>
-        <li class="stats__result stats__result--unknown"></li>
-        <li class="stats__result stats__result--slow"></li>
-        <li class="stats__result stats__result--unknown"></li>
-        <li class="stats__result stats__result--fast"></li>
-        <li class="stats__result stats__result--unknown"></li>
-      </ul>
+      ${stats(GAME_DATA)}
     </div>
   </div>
   ${footer}`.trim();
