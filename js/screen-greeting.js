@@ -3,27 +3,22 @@ import {showScreen} from './show-screen';
 import screenRules from './screen-rules';
 import footer from './templates/footer';
 
-const templateGreeting = `
+export default (gameData) => {
+  const templateGreeting = `
   <div class="greeting central--blur">
     <div class="greeting__logo"><img src="img/logo_big.png" width="201" height="89" alt="Pixel Hunter"></div>
     <h1 class="greeting__asterisk">*</h1>
-    <div class="greeting__challenge">
-      <h3>Лучшие художники-фотореалисты бросают&nbsp;тебе&nbsp;вызов!</h3>
-      <p>Правила игры просты.<br>
-        Нужно отличить рисунок&nbsp;от фотографии и сделать выбор.<br>
-        Задача кажется тривиальной, но не думай, что все так просто.<br>
-        Фотореализм обманчив и коварен.<br>
-        Помни, главное — смотреть очень внимательно.</p>
-    </div>
+    <div class="greeting__challenge">${gameData.GREETING_TEMPLATE}</div>
     <div class="greeting__continue"><span><img src="img/arrow_right.svg" width="64" height="64" alt="Next"></span></div>
   </div>
   ${footer}`.trim();
 
-const screenGreeting = getElementFromTemplate(templateGreeting);
-const continueButton = screenGreeting.querySelector(`.greeting__continue`);
+  const screenGreeting = getElementFromTemplate(templateGreeting);
+  const continueButton = screenGreeting.querySelector(`.greeting__continue`);
 
-continueButton.onclick = () => {
-  showScreen(screenRules);
+  continueButton.onclick = () => {
+    showScreen(screenRules);
+  };
+
+  return screenGreeting;
 };
-
-export default screenGreeting;

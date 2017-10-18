@@ -3,8 +3,10 @@ import {showScreen} from './show-screen';
 import screenGameOne from './screen-game-one';
 import screenGreeting from './screen-greeting';
 import footer from './templates/footer';
+import {initialState} from './data/initialState';
 
-const templateRules = `
+export default (gameData) => {
+  const templateRules = `
   <header class="header">
     <div class="header__back">
       <button class="back">
@@ -31,24 +33,26 @@ const templateRules = `
   </div>
   ${footer}`.trim();
 
-const screenRules = getElementFromTemplate(templateRules);
+  const screenRules = getElementFromTemplate(templateRules);
 
-const playForm = screenRules.querySelector(`.rules__form`);
-const playerNameField = playForm.querySelector(`.rules__input`);
-const continueButton = playForm.querySelector(`.continue`);
-const buttonBack = screenRules.querySelector(`.back`);
-buttonBack.onclick = () => showScreen(screenGreeting);
+  const playForm = screenRules.querySelector(`.rules__form`);
+  const playerNameField = playForm.querySelector(`.rules__input`);
+  const continueButton = playForm.querySelector(`.continue`);
+  const buttonBack = screenRules.querySelector(`.back`);
+  buttonBack.onclick = () => showScreen(screenGreeting);
 
-playerNameField.oninput = () => {
-  if (playerNameField.value !== ``) {
-    continueButton.removeAttribute(`disabled`);
-  } else {
-    continueButton.setAttribute(`disabled`, `disabled`);
-  }
+  playerNameField.oninput = () => {
+    if (playerNameField.value !== ``) {
+      continueButton.removeAttribute(`disabled`);
+    } else {
+      continueButton.setAttribute(`disabled`, `disabled`);
+    }
+  };
+
+  playForm.onsubmit = () => {
+    const state = Object.assign({}, initialState);
+    showScreen(screenGameOne);
+  };
+
+  return screenRules;
 };
-
-playForm.onsubmit = () => {
-  showScreen(screenGameOne);
-};
-
-export default screenRules;

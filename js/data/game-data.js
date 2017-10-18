@@ -1,4 +1,12 @@
 export default {
+  INTRO_TEXT: `Это не фото. Это рисунок маслом нидерландского художника-фотореалиста Tjalf Sparnaay.`,
+  GREETING_TEMPLATE: `
+    <h3>Лучшие художники-фотореалисты бросают&nbsp;тебе&nbsp;вызов!</h3>
+      <p>Правила игры просты.<br>
+        Нужно отличить рисунок&nbsp;от фотографии и сделать выбор.<br>
+        Задача кажется тривиальной, но не думай, что все так просто.<br>
+        Фотореализм обманчив и коварен.<br>
+        Помни, главное — смотреть очень внимательно.</p>`.trim(),
   ANSWERS_MINIMUM: 10,
   SCORES: {
     SUCCESS: 100,
@@ -17,146 +25,6 @@ export default {
     CORRECT: `correct`,
     WRONG: `wrong`
   },
-  LIVES: 3, 
-  answers: [`fast`, `slow`, `correct`, `wrong`, `fast`, `slow`, `correct`, `wrong`],
-  questions: [
-    {
-      type: `guessEach`,
-      width: 468,
-      height: 458,
-      options: [
-        {
-          source: `http://placehold.it/468x458`,
-          isPhoto: false
-        },
-        {
-          source: `http://placehold.it/468x458`,
-          isPhoto: true
-        }
-      ]
-    },
-    {
-      type: `guessOneBig`,
-      source: `http://placehold.it/705x455`,
-      width: 705,
-      height: 455,
-      isPhoto: false
-    },
-    {
-      type: `guessEach`,
-      width: 304,
-      height: 455,
-      options: [
-        {
-          source: `http://placehold.it/304x455`,
-          isPhoto: false
-        },
-        {
-          source: `http://placehold.it/304x455`,
-          isPhoto: true
-        },
-        {
-          source: `http://placehold.it/304x455`,
-          isPhoto: false
-        }
-      ]
-    },
-    {
-      type: `guessEach`,
-      width: 468,
-      height: 458,
-      options: [
-        {
-          source: `http://placehold.it/468x458`,
-          isPhoto: false
-        },
-        {
-          source: `http://placehold.it/468x458`,
-          isPhoto: true
-        }
-      ]
-    },
-    {
-      type: `guessOneBig`,
-      source: `http://placehold.it/705x455`,
-      width: 705,
-      height: 455,
-      isPhoto: false
-    },
-    {
-      type: `guessEach`,
-      width: 304,
-      height: 455,
-      options: [
-        {
-          source: `http://placehold.it/304x455`,
-          isPhoto: false
-        },
-        {
-          source: `http://placehold.it/304x455`,
-          isPhoto: true
-        },
-        {
-          source: `http://placehold.it/304x455`,
-          isPhoto: false
-        }
-      ]
-    },
-    {
-      type: `guessEach`,
-      width: 468,
-      height: 458,
-      options: [
-        {
-          source: `http://placehold.it/468x458`,
-          isPhoto: false
-        },
-        {
-          source: `http://placehold.it/468x458`,
-          isPhoto: true
-        }
-      ]
-    },
-    {
-      type: `guessOneBig`,
-      source: `http://placehold.it/705x455`,
-      width: 705,
-      height: 455,
-      isPhoto: false
-    },
-    {
-      type: `guessEach`,
-      width: 304,
-      height: 455,
-      options: [
-        {
-          source: `http://placehold.it/304x455`,
-          isPhoto: false
-        },
-        {
-          source: `http://placehold.it/304x455`,
-          isPhoto: true
-        },
-        {
-          source: `http://placehold.it/304x455`,
-          isPhoto: false
-        }
-      ]
-    },
-    {
-      type: `guessEach`,
-      width: 468,
-      height: 458,
-      options: [
-        {
-          source: `http://placehold.it/468x458`,
-          isPhoto: false
-        },
-        {
-          source: `http://placehold.it/468x458`,
-          isPhoto: true
-        }
-      ]
-    }
-  ]
+  LIVES: 3
+  // answers: [`fast`, `slow`, `correct`, `wrong`, `fast`, `slow`, `correct`, `wrong`],
 };
