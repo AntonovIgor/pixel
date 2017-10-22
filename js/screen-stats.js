@@ -3,9 +3,9 @@ import {showScreen} from './show-screen';
 import screenGreeting from './screen-greeting';
 import footer from './templates/footer';
 import {stats} from './templates/stats';
-import GAME_DATA from './data/game-data';
 
-const templateStats = `
+export default (state) => {
+  const templateStats = `
   <header class="header">
     <div class="header__back">
       <button class="back">
@@ -20,7 +20,7 @@ const templateStats = `
       <tr>
         <td class="result__number">1.</td>
         <td colspan="2">
-          ${stats(GAME_DATA)}
+          ${stats(state)}
         </td>
         <td class="result__points">×&nbsp;100</td>
         <td class="result__total">900</td>
@@ -55,7 +55,7 @@ const templateStats = `
         <td class="result__number">2.</td>
         <td>
           <ul class="stats">
-            ${stats(GAME_DATA)}
+            ${stats(state)}
           </ul>
         </td>
         <td class="result__total"></td>
@@ -66,7 +66,7 @@ const templateStats = `
       <tr>
         <td class="result__number">3.</td>
         <td colspan="2">
-          ${stats(GAME_DATA)}
+          ${stats(state)}
         </td>
         <td class="result__points">×&nbsp;100</td>
         <td class="result__total">900</td>
@@ -85,9 +85,11 @@ const templateStats = `
   </div>
   ${footer}`.trim();
 
-const screenStats = getElementFromTemplate(templateStats);
-const buttonBack = screenStats.querySelector(`.back`);
+  const screenStats = getElementFromTemplate(templateStats);
+  const buttonBack = screenStats.querySelector(`.back`);
 
-buttonBack.onclick = () => showScreen(screenGreeting);
+  buttonBack.onclick = () => showScreen(screenGreeting());
 
-export default screenStats;
+  return screenStats;
+};
+

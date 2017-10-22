@@ -7,6 +7,16 @@ export default {
         Задача кажется тривиальной, но не думай, что все так просто.<br>
         Фотореализм обманчив и коварен.<br>
         Помни, главное — смотреть очень внимательно.</p>`.trim(),
+  RULES_TEMPLATE: `<h1 class="rules__title">Правила</h1>
+    <p class="rules__description">Угадай 10 раз для каждого изображения фото <img
+      src="img/photo_icon.png" width="16" height="16"> или рисунок <img
+      src="img/paint_icon.png" width="16" height="16" alt="">.<br>
+      Фотографиями или рисунками могут быть оба изображения.<br>
+      На каждую попытку отводится 30 секунд.<br>
+      Ошибиться можно не более 3 раз.<br>
+      <br>
+      Готовы?
+    </p>`,
   ANSWERS_MINIMUM: 10,
   SCORES: {
     SUCCESS: 100,
@@ -25,6 +35,10 @@ export default {
     CORRECT: `correct`,
     WRONG: `wrong`
   },
+  GAME_TYPE: {
+    GUESS_EACH: `guessEach`,
+    GUESS_WIDE: `guessWide`,
+    GUESS_TRIPLE: `guessTriple`
+  },
   LIVES: 3
-  // answers: [`fast`, `slow`, `correct`, `wrong`, `fast`, `slow`, `correct`, `wrong`],
 };

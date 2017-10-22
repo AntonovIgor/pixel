@@ -1,14 +1,19 @@
 import {getElementFromTemplate} from './get-element-from-template';
 import {showScreen} from './show-screen';
-import screenStats from './screen-stats';
 import screenGreeting from './screen-greeting';
 import footer from './templates/footer';
 import {headerTemplate} from './templates/header';
-import {initialState} from './data/initialState';
 import {stats} from './templates/stats';
-import GAME_DATA from './data/game-data';
+import {setGameScreen} from './engine/set-game-screen';
+import {checkAnswer} from './engine/check-answer';
+import {calculateAnswerTime} from './engine/calculate-answer-time';
+import {updateGameState} from './engine/update-game-state';
+import {setQuestionToAsk} from './engine/set-question-to-ask';
+import {checkAnswerTime} from './engine/check-answer-time';
+import questions from './data/fakeQuestions';
 
-const templateGameThree = `
+export default (question, state) => {
+  const templateGameThree = `
   <header class="header">
     <div class="header__back">
       <button class="back">
@@ -16,37 +21,46 @@ const templateGameThree = `
         <img src="img/logo_small.svg" width="101" height="44">
       </button>
     </div>
-    ${headerTemplate(initialState)}
+    ${headerTemplate(state)}
   </header>
   <div class="game">
     <p class="game__task">Найдите рисунок среди изображений</p>
-    <form class="game__content  game__content--triple">
-      <div class="game__option">
-        <img src="http://placehold.it/304x455" alt="Option 1" width="304" height="455">
-      </div>
-      <div class="game__option  game__option--selected">
-        <img src="http://placehold.it/304x455" alt="Option 1" width="304" height="455">
-      </div>
-      <div class="game__option">
-        <img src="http://placehold.it/304x455" alt="Option 1" width="304" height="455">
-      </div>
+    <form class="game__content  game__content--triple">    
+    ${[...question.options].map((option) => {
+      return `<div class="game__option">
+        <img src="${option.source}" alt="Option 1" width="${question.width}" height="${question.height}">
+      </div>`;
+    }).join(``)}
     </form>
     <div class="stats">
-      ${stats(GAME_DATA)}
+      ${stats(state)}
     </div>
   </div>
   ${footer}`.trim();
 
-const screenGameThree = getElementFromTemplate(templateGameThree);
-const gameOptions = Array.from(screenGameThree.querySelectorAll(`.game__option`));
-const buttonBack = screenGameThree.querySelector(`.back`);
+  const screenGameThree = getElementFromTemplate(templateGameThree);
+  const gameOptions = Array.from(screenGameThree.querySelectorAll(`.game__option`));
+  const buttonBack = screenGameThree.querySelector(`.back`);
 
-buttonBack.onclick = () => showScreen(screenGreeting);
+  buttonBack.onclick = () => showScreen(screenGreeting());
 
-gameOptions.forEach((option) => {
-  option.onclick = () => {
-    showScreen(screenStats);
-  };
-});
+  gameOptions.forEach((option) => {
+    option.onclick = () => {
+      option.classList.add(`game__option--selected`);
 
-export default screenGameThree;
+      const answersArray = gameOptions.map(option => {
+        return (option.classList.contains(`game__option--selected`)) ? `paint` : `photo`;
+      });
+      const answer = {
+        isCorrect: checkAnswer(answersArray, question),
+        time: calculateAnswerTime()
+      };
+      state.answers.push(answer);
+      state.stats.push(checkAnswerTime(answer));
+      const newState = updateGameState(state, answer);
+      showScreen(setGameScreen(newState, setQuestionToAsk(questions, newState.questionIndex)));
+    };
+  });
+
+  return screenGameThree;
+};

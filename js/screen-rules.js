@@ -1,11 +1,14 @@
 import {getElementFromTemplate} from './get-element-from-template';
 import {showScreen} from './show-screen';
-import screenGameOne from './screen-game-one';
 import screenGreeting from './screen-greeting';
 import footer from './templates/footer';
 import {initialState} from './data/initialState';
+import GAME_DATA from './data/game-data';
+import {setGameScreen} from './engine/set-game-screen';
+import {setQuestionToAsk} from './engine/set-question-to-ask';
+import questions from './data/fakeQuestions';
 
-export default (gameData) => {
+export default () => {
   const templateRules = `
   <header class="header">
     <div class="header__back">
@@ -16,16 +19,7 @@ export default (gameData) => {
     </div>
   </header>
   <div class="rules">
-    <h1 class="rules__title">Правила</h1>
-    <p class="rules__description">Угадай 10 раз для каждого изображения фото <img
-      src="img/photo_icon.png" width="16" height="16"> или рисунок <img
-      src="img/paint_icon.png" width="16" height="16" alt="">.<br>
-      Фотографиями или рисунками могут быть оба изображения.<br>
-      На каждую попытку отводится 30 секунд.<br>
-      Ошибиться можно не более 3 раз.<br>
-      <br>
-      Готовы?
-    </p>
+    ${GAME_DATA.RULES_TEMPLATE}
     <form class="rules__form">
       <input class="rules__input" type="text" placeholder="Ваше Имя">
       <button class="rules__button  continue" type="submit" disabled>Go!</button>
@@ -51,7 +45,8 @@ export default (gameData) => {
 
   playForm.onsubmit = () => {
     const state = Object.assign({}, initialState);
-    showScreen(screenGameOne);
+    const questionToAsk = setQuestionToAsk(questions, state.questionIndex);
+    showScreen(setGameScreen(state, questionToAsk));
   };
 
   return screenRules;
