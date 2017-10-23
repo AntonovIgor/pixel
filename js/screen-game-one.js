@@ -27,7 +27,7 @@ export default (question, state) => {
     <p class="game__task">Угадайте для каждого изображения фото или рисунок?</p>
     <form class="game__content">
     ${[...question.options].map((option) => {
-    const optIndex = question.options.indexOf(option) + 1;    
+    const optIndex = question.options.indexOf(option) + 1;
     return `<div class="game__option">
         <img src="${option.source}" alt="Option ${optIndex}" width="${question.width}" height="${question.height}">
         <label class="game__answer game__answer--photo">
@@ -39,10 +39,10 @@ export default (question, state) => {
           <span>Рисунок</span>
         </label>
       </div>`;
-    }).join(``)}
+  }).join(``)}
     </form>
     <div class="stats">
-      ${stats(state)}
+      ${stats(state.stats)}
     </div>
   </div>
   ${footer}`.trim();
@@ -56,7 +56,7 @@ export default (question, state) => {
 
   gameForm.onchange = () => {
     const checkedOption = gameForm.querySelectorAll(`input[type="radio"]:checked`);
-    const answersArray = Array.from(checkedOption).map(answer => {
+    const answersArray = Array.from(checkedOption).map((answer) => {
       return answer.value;
     });
     if (checkedOption.length === gameOptions.length) {

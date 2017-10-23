@@ -1,8 +1,9 @@
 import GAME_DATA from '../data/game-data';
 import questions from '../data/fakeQuestions';
 
-export const stats = (state) => `<ul class="stats">
-  ${state.stats.map(answer => {
+export const stats = (gameStats) => {
+  return `<ul class="stats">
+  ${gameStats.map((answer) => {
     if (answer === GAME_DATA.ANSWER.WRONG) {
       return `<li class="stats__result stats__result--wrong"></li>`;
     } else if (answer === GAME_DATA.ANSWER.SLOW) {
@@ -15,7 +16,8 @@ export const stats = (state) => `<ul class="stats">
       return `<li class="stats__result stats__result--unknown"></li>`;
     }
   }).join(``)}
-  ${new Array(questions.length - state.answers.length)
-  .fill(`<li class="stats__result stats__result--unknown"></li>`)
-  .join(``)}
-</ul>`;
+    ${new Array(questions.length - gameStats.length)
+      .fill(`<li class="stats__result stats__result--unknown"></li>`)
+      .join(``)}
+  </ul>`;
+};

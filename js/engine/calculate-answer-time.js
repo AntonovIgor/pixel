@@ -1,3 +1,3 @@
-export const calculateAnswerTime = (state) => {
+export const calculateAnswerTime = () => {
   return 15;
 };

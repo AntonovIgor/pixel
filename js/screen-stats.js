@@ -3,8 +3,32 @@ import {showScreen} from './show-screen';
 import screenGreeting from './screen-greeting';
 import footer from './templates/footer';
 import {stats} from './templates/stats';
+import GAME_DATA from './data/game-data';
+
+const GAME_SCORES = GAME_DATA.SCORES;
 
 export default (state) => {
+  const gameResultTitle = (stateObj) => {
+    return stateObj.scores > 0 ? `Победа` : `Поражение`;
+  };
+
+  const countEntries = (array, key) => {
+    let count = 0;
+    array.forEach((element) => {
+      count = (element === key) ? ++count : count;
+    });
+    return count;
+  };
+
+  state.gamesList.push({
+    corrent: countEntries(state.stats, GAME_DATA.ANSWER.CORRECT),
+    fast: countEntries(state.stats, GAME_DATA.ANSWER.FAST),
+    slow: countEntries(state.stats, GAME_DATA.ANSWER.SLOW),
+    scores: state.scores,
+    alive: state.lives,
+    answers: state.stats
+  });
+
   const templateStats = `
   <header class="header">
     <div class="header__back">
@@ -15,73 +39,65 @@ export default (state) => {
     </div>
   </header>
   <div class="result">
-    <h1>Победа!</h1>
-    <table class="result__table">
-      <tr>
-        <td class="result__number">1.</td>
-        <td colspan="2">
-          ${stats(state)}
-        </td>
-        <td class="result__points">×&nbsp;100</td>
-        <td class="result__total">900</td>
-      </tr>
-      <tr>
-        <td></td>
-        <td class="result__extra">Бонус за скорость:</td>
-        <td class="result__extra">1&nbsp;<span class="stats__result stats__result--fast"></span></td>
-        <td class="result__points">×&nbsp;50</td>
-        <td class="result__total">50</td>
-      </tr>
-      <tr>
-        <td></td>
-        <td class="result__extra">Бонус за жизни:</td>
-        <td class="result__extra">2&nbsp;<span class="stats__result stats__result--alive"></span></td>
-        <td class="result__points">×&nbsp;50</td>
-        <td class="result__total">100</td>
-      </tr>
-      <tr>
-        <td></td>
-        <td class="result__extra">Штраф за медлительность:</td>
-        <td class="result__extra">2&nbsp;<span class="stats__result stats__result--slow"></span></td>
-        <td class="result__points">×&nbsp;50</td>
-        <td class="result__total">-100</td>
-      </tr>
-      <tr>
-        <td colspan="5" class="result__total  result__total--final">950</td>
-      </tr>
-    </table>
-    <table class="result__table">
-      <tr>
-        <td class="result__number">2.</td>
-        <td>
-          <ul class="stats">
-            ${stats(state)}
-          </ul>
-        </td>
-        <td class="result__total"></td>
-        <td class="result__total  result__total--final">fail</td>
-      </tr>
-    </table>
-    <table class="result__table">
-      <tr>
-        <td class="result__number">3.</td>
-        <td colspan="2">
-          ${stats(state)}
-        </td>
-        <td class="result__points">×&nbsp;100</td>
-        <td class="result__total">900</td>
-      </tr>
-      <tr>
-        <td></td>
-        <td class="result__extra">Бонус за жизни:</td>
-        <td class="result__extra">2&nbsp;<span class="stats__result stats__result--alive"></span></td>
-        <td class="result__points">×&nbsp;50</td>
-        <td class="result__total">100</td>
-      </tr>
-      <tr>
-        <td colspan="5" class="result__total  result__total--final">950</td>
-      </tr>
-    </table>
+    <h1>${gameResultTitle(state)}!</h1>
+    ${state.gamesList.map((game, index) => {
+    const rightAnswers = game.corrent;
+    const totalScores = game.scores;
+    const fast = game.fast;
+    const alive = game.alive;
+    const slow = game.slow;
+    const answers = game.answers;
+
+    if (totalScores > 0) {
+      return `<table class="result__table">
+            <tr>
+              <td class="result__number">${index + 1}.</td>
+              <td colspan="2">
+                ${stats(answers)}
+              </td>
+              <td class="result__points">×&nbsp;${GAME_SCORES.SUCCESS}</td>
+              <td class="result__total">${rightAnswers * GAME_SCORES.SUCCESS}</td>
+            </tr>
+            ${fast ? `<tr>
+              <td></td>
+              <td class="result__extra">Бонус за скорость:</td>
+              <td class="result__extra">${fast}&nbsp;<span class="stats__result stats__result--fast"></span></td>
+              <td class="result__points">×&nbsp;${GAME_SCORES.FAST}</td>
+              <td class="result__total">${fast * GAME_SCORES.FAST}</td>
+            </tr>` : ``}      
+            ${alive > 0 ? `<tr>
+              <td></td>
+              <td class="result__extra">Бонус за жизни:</td>
+              <td class="result__extra">${alive}&nbsp;<span class="stats__result stats__result--alive"></span></td>
+              <td class="result__points">×&nbsp;${GAME_SCORES.EXTRA}</td>
+              <td class="result__total">${alive * GAME_SCORES.EXTRA}</td>
+            </tr>` : ``}      
+            ${slow > 0 ? `<tr>
+              <td></td>
+              <td class="result__extra">Штраф за медлительность:</td>
+              <td class="result__extra">${slow}&nbsp;<span class="stats__result stats__result--slow"></span></td>
+              <td class="result__points">×&nbsp;${GAME_SCORES.SLOW}</td>
+              <td class="result__total">${-slow * GAME_SCORES.SLOW}</td>
+            </tr>` : ``}      
+            <tr>
+              <td colspan="5" class="result__total  result__total--final">${totalScores}</td>
+            </tr>
+          </table>`;
+    } else {
+      return `<table class="result__table">
+          <tr>
+            <td class="result__number">${index + 1}.</td>
+            <td>
+              <ul class="stats">
+                ${stats(answers)}
+              </ul>
+            </td>
+            <td class="result__total"></td>
+            <td class="result__total  result__total--final">fail</td>
+          </tr>
+        </table>`;
+    }
+  })}    
   </div>
   ${footer}`.trim();
 
@@ -92,4 +108,3 @@ export default (state) => {
 
   return screenStats;
 };
-

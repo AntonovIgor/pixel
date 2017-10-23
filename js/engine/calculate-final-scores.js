@@ -4,7 +4,6 @@ const GAME_SCORES = GAME_DATA.SCORES;
 const GAME_TIME = GAME_DATA.ANSWER_TIME;
 
 export const calculateFinalScores = (answersArray, lives) => {
-
   const answersLength = answersArray.length;
   let scores = 0;
   answersArray.forEach((answer) => {

@@ -27,13 +27,13 @@ export default (question, state) => {
     <p class="game__task">Найдите рисунок среди изображений</p>
     <form class="game__content  game__content--triple">    
     ${[...question.options].map((option) => {
-      return `<div class="game__option">
+    return `<div class="game__option">
         <img src="${option.source}" alt="Option 1" width="${question.width}" height="${question.height}">
       </div>`;
-    }).join(``)}
+  }).join(``)}
     </form>
     <div class="stats">
-      ${stats(state)}
+      ${stats(state.stats)}
     </div>
   </div>
   ${footer}`.trim();
@@ -48,8 +48,8 @@ export default (question, state) => {
     option.onclick = () => {
       option.classList.add(`game__option--selected`);
 
-      const answersArray = gameOptions.map(option => {
-        return (option.classList.contains(`game__option--selected`)) ? `paint` : `photo`;
+      const answersArray = gameOptions.map((opt) => {
+        return (opt.classList.contains(`game__option--selected`)) ? `paint` : `photo`;
       });
       const answer = {
         isCorrect: checkAnswer(answersArray, question),

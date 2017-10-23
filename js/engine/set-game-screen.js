@@ -23,7 +23,5 @@ export const setGameScreen = (state, question) => {
   } else {
     screen = screenStats(newState);
   }
-
-  console.log(newState);
   return screen;
 };

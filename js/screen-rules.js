@@ -35,8 +35,10 @@ export default () => {
   const buttonBack = screenRules.querySelector(`.back`);
   buttonBack.onclick = () => showScreen(screenGreeting);
 
+  const state = Object.assign({}, initialState);
+
   playerNameField.oninput = () => {
-    if (playerNameField.value !== ``) {
+    if (playerNameField.value) {
       continueButton.removeAttribute(`disabled`);
     } else {
       continueButton.setAttribute(`disabled`, `disabled`);
@@ -44,7 +46,7 @@ export default () => {
   };
 
   playForm.onsubmit = () => {
-    const state = Object.assign({}, initialState);
+    state.playerName = playerNameField.value.trim();
     const questionToAsk = setQuestionToAsk(questions, state.questionIndex);
     showScreen(setGameScreen(state, questionToAsk));
   };
