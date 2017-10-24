@@ -3,7 +3,7 @@ import {calculateFinalScores} from './calculate-final-scores';
 export const updateGameState = (state, asnwer) => {
   const newState = Object.assign({}, state);
   if (asnwer.isCorrect) {
-    newState.scores = calculateFinalScores(newState.answers, newState.lives);
+    newState.scores = calculateFinalScores(newState.stats, newState.lives);
   } else {
     newState.lives--;
   }

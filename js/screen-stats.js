@@ -4,6 +4,7 @@ import screenGreeting from './screen-greeting';
 import footer from './templates/footer';
 import {stats} from './templates/stats';
 import GAME_DATA from './data/game-data';
+import {calculateFinalScores} from './engine/calculate-final-scores';
 
 const GAME_SCORES = GAME_DATA.SCORES;
 
@@ -21,13 +22,9 @@ export default (state) => {
     return count;
   };
 
-  state.gamesList.push({
-    corrent: countEntries(state.stats, GAME_DATA.ANSWER.CORRECT),
-    fast: countEntries(state.stats, GAME_DATA.ANSWER.FAST),
-    slow: countEntries(state.stats, GAME_DATA.ANSWER.SLOW),
-    scores: state.scores,
-    alive: state.lives,
-    answers: state.stats
+  state.gamesHistory.push({
+    stats: state.stats,
+    lives: state.lives
   });
 
   const templateStats = `<header class="header">
@@ -40,13 +37,13 @@ export default (state) => {
   </header>
   <div class="result">
     <h1>${gameResultTitle(state)}!</h1>
-    ${state.gamesList.map((game, index) => {
-    const rightAnswers = game.corrent;
-    const totalScores = game.scores;
-    const fast = game.fast;
-    const alive = game.alive;
-    const slow = game.slow;
-    const answers = game.answers;
+    ${state.gamesHistory.map((game, index) => {
+    const rightAnswers = countEntries(game.stats, GAME_DATA.ANSWER.CORRECT);
+    const totalScores = calculateFinalScores(game.stats, game.lives);
+    const fast = countEntries(game.stats, GAME_DATA.ANSWER.FAST);
+    const alive = game.lives;
+    const slow = countEntries(game.stats, GAME_DATA.ANSWER.SLOW);
+    const answers = game.stats;
 
     if (totalScores > 0) {
       return `<table class="result__table">

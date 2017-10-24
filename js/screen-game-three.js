@@ -48,7 +48,6 @@ export default (question, state) => {
   gameOptions.forEach((option) => {
     option.onclick = () => {
       option.classList.add(`game__option--selected`);
-
       const answersArray = gameOptions.map((opt) => {
         return (opt.classList.contains(`game__option--selected`)) ? GAME_DATA.ANSWER_TYPE.PHOTO : GAME_DATA.ANSWER_TYPE.PAINTING;
       });
@@ -56,7 +55,6 @@ export default (question, state) => {
         isCorrect: checkAnswer(answersArray, question),
         time: calculateAnswerTime()
       };
-      state.answers.push(answer);
       state.stats.push(checkAnswerTime(answer));
       const newState = updateGameState(state, answer);
       showScreen(setGameScreen(newState, setQuestionToAsk(questions, newState.questionIndex)));

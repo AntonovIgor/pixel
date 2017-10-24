@@ -5,5 +5,5 @@ export const initialState = Object.freeze({
   questionIndex: 0,
   answers: [],
   stats: [],
-  gamesList: []
+  gamesHistory: []
 });

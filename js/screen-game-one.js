@@ -64,7 +64,6 @@ export default (question, state) => {
         isCorrect: checkAnswer(answersArray, question),
         time: calculateAnswerTime(state)
       };
-      state.answers.push(answer);
       state.stats.push(checkAnswerTime(answer));
       const newState = updateGameState(state, answer);
       showScreen(setGameScreen(newState, setQuestionToAsk(questions, newState.questionIndex)));
