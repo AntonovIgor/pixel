@@ -36,13 +36,13 @@ export default {
     WRONG: `wrong`
   },
   ANSWER_TYPE: {
-    PAINTING: 'painting',
-    PHOTO: 'photo'
+    PAINTING: `painting`,
+    PHOTO: `photo`
   },
   GAME_TYPE: {
-    TWO_OF_TWO: 'two-of-two',
-    TINDER_LIKE: 'tinder-like',
-    ONE_OF_THREE: 'one-of-three'
+    TWO_OF_TWO: `two-of-two`,
+    TINDER_LIKE: `tinder-like`,
+    ONE_OF_THREE: `one-of-three`
   },
   LIVES: 3
 };

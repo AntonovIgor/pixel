@@ -46,11 +46,11 @@ export default [
     answers: [
       {
         image: {
-          url: `https://k40.kn3.net/6A7A24F7C.jpg`
-          , width: 468
-          , height: 458
-        }
-        , type: `painting`
+          url: `https://k40.kn3.net/6A7A24F7C.jpg`,
+          width: 468,
+          height: 458
+        },
+        type: `painting`
       },
       {
         image: {
@@ -108,11 +108,11 @@ export default [
     answers: [
       {
         image: {
-          url: `https://k40.kn3.net/6A7A24F7C.jpg`
-          , width: 468
-          , height: 458
-        }
-        , type: `painting`
+          url: `https://k40.kn3.net/6A7A24F7C.jpg`,
+          width: 468,
+          height: 458
+        },
+        type: `painting`
       },
       {
         image: {
@@ -170,11 +170,11 @@ export default [
     answers: [
       {
         image: {
-          url: `https://k40.kn3.net/6A7A24F7C.jpg`
-          , width: 468
-          , height: 458
-        }
-        , type: `painting`
+          url: `https://k40.kn3.net/6A7A24F7C.jpg`,
+          width: 468,
+          height: 458
+        },
+        type: `painting`
       },
       {
         image: {

@@ -9,7 +9,6 @@ import {calculateFinalScores} from './engine/calculate-final-scores';
 const GAME_SCORES = GAME_DATA.SCORES;
 
 export default (state) => {
-  console.log(state);
   const gameResultTitle = (stateObj) => {
     return stateObj.scores > 0 ? `Победа` : `Поражение`;
   };
