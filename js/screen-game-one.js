@@ -24,18 +24,18 @@ export default (question, state) => {
     ${headerTemplate(state)}
   </header>
   <div class="game">
-    <p class="game__task">Угадайте для каждого изображения фото или рисунок?</p>
+    <p class="game__task">${question.question}</p>
     <form class="game__content">
-    ${[...question.options].map((option) => {
-    const optIndex = question.options.indexOf(option) + 1;
+    ${[...question.answers].map((answer) => {
+    const optIndex = question.answers.indexOf(answer) + 1;
     return `<div class="game__option">
-        <img src="${option.source}" alt="Option ${optIndex}" width="${question.width}" height="${question.height}">
+        <img src="${answer.image.url}" alt="Option ${optIndex}" width="${answer.image.width}" height="${answer.image.height}">
         <label class="game__answer game__answer--photo">
           <input name="question${optIndex}" type="radio" value="photo">
           <span>Фото</span>
         </label>
         <label class="game__answer game__answer--paint">
-          <input name="question${optIndex}" type="radio" value="paint">
+          <input name="question${optIndex}" type="radio" value="painting">
           <span>Рисунок</span>
         </label>
       </div>`;

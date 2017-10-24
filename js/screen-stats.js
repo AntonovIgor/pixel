@@ -8,6 +8,7 @@ import GAME_DATA from './data/game-data';
 const GAME_SCORES = GAME_DATA.SCORES;
 
 export default (state) => {
+  console.log(state);
   const gameResultTitle = (stateObj) => {
     return stateObj.scores > 0 ? `Победа` : `Поражение`;
   };
@@ -29,8 +30,7 @@ export default (state) => {
     answers: state.stats
   });
 
-  const templateStats = `
-  <header class="header">
+  const templateStats = `<header class="header">
     <div class="header__back">
       <button class="back">
         <img src="img/arrow_left.svg" width="45" height="45" alt="Back">

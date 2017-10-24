@@ -19,6 +19,6 @@ export const calculateFinalScores = (answersArray, lives) => {
     }
   });
 
-  return (lives && answersLength === GAME_DATA.ANSWERS_MINIMUM) ?
+  return ((lives >= 0) && answersLength === GAME_DATA.ANSWERS_MINIMUM) ?
     scores + lives * GAME_SCORES.EXTRA : GAME_SCORES.LOSE;
 };

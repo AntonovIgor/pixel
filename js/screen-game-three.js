@@ -11,6 +11,7 @@ import {updateGameState} from './engine/update-game-state';
 import {setQuestionToAsk} from './engine/set-question-to-ask';
 import {checkAnswerTime} from './engine/check-answer-time';
 import questions from './data/fakeQuestions';
+import GAME_DATA from './data/game-data';
 
 export default (question, state) => {
   const templateGameThree = `
@@ -24,11 +25,11 @@ export default (question, state) => {
     ${headerTemplate(state)}
   </header>
   <div class="game">
-    <p class="game__task">Найдите рисунок среди изображений</p>
+    <p class="game__task">${question.question}</p>
     <form class="game__content  game__content--triple">    
-    ${[...question.options].map((option) => {
+    ${[...question.answers].map((answer) => {
     return `<div class="game__option">
-        <img src="${option.source}" alt="Option 1" width="${question.width}" height="${question.height}">
+        <img src="${answer.image.url}" alt="Option 1" width="${answer.image.width}" height="${answer.image.height}">
       </div>`;
   }).join(``)}
     </form>
@@ -49,7 +50,7 @@ export default (question, state) => {
       option.classList.add(`game__option--selected`);
 
       const answersArray = gameOptions.map((opt) => {
-        return (opt.classList.contains(`game__option--selected`)) ? `paint` : `photo`;
+        return (opt.classList.contains(`game__option--selected`)) ? GAME_DATA.ANSWER_TYPE.PHOTO : GAME_DATA.ANSWER_TYPE.PAINTING;
       });
       const answer = {
         isCorrect: checkAnswer(answersArray, question),
