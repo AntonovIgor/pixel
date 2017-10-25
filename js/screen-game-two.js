@@ -1,9 +1,19 @@
 import {getElementFromTemplate} from './get-element-from-template';
 import {showScreen} from './show-screen';
-import screenGameThree from './screen-game-three';
 import screenGreeting from './screen-greeting';
+import footer from './templates/footer';
+import {headerTemplate} from './templates/header';
+import {stats} from './templates/stats';
+import {checkAnswer} from './engine/check-answer';
+import {calculateAnswerTime} from './engine/calculate-answer-time';
+import {updateGameState} from './engine/update-game-state';
+import {setGameScreen} from './engine/set-game-screen';
+import {setQuestionToAsk} from './engine/set-question-to-ask';
+import {checkAnswerTime} from './engine/check-answer-time';
+import questions from './data/fakeQuestions';
 
-const templateGameTwo = `
+export default (question, state) => {
+  const templateGameTwo = `
   <header class="header">
     <div class="header__back">
       <button class="back">
@@ -11,62 +21,51 @@ const templateGameTwo = `
         <img src="img/logo_small.svg" width="101" height="44">
       </button>
     </div>
-    <h1 class="game__timer">NN</h1>
-    <div class="game__lives">
-      <img src="img/heart__empty.svg" class="game__heart" alt="Life" width="32" height="32">
-      <img src="img/heart__full.svg" class="game__heart" alt="Life" width="32" height="32">
-      <img src="img/heart__full.svg" class="game__heart" alt="Life" width="32" height="32">
-    </div>
+    ${headerTemplate(state)}
   </header>
   <div class="game">
-    <p class="game__task">Угадай, фото или рисунок?</p>
+    <p class="game__task">${question.question}</p>
     <form class="game__content  game__content--wide">
-      <div class="game__option">
-        <img src="http://placehold.it/705x455" alt="Option 1" width="705" height="455">
+     ${[...question.answers].map((answer) => {
+    const optIndex = question.answers.indexOf(answer) + 1;
+    return `<div class="game__option">
+        <img src="${answer.image.url}" alt="Option ${optIndex}" width="${answer.image.width}" height="${answer.image.height}">
         <label class="game__answer  game__answer--photo">
-          <input name="question1" type="radio" value="photo">
+          <input name="question${optIndex}" type="radio" value="photo">
           <span>Фото</span>
         </label>
         <label class="game__answer  game__answer--wide  game__answer--paint">
-          <input name="question1" type="radio" value="paint">
+          <input name="question${optIndex}" type="radio" value="painting">
           <span>Рисунок</span>
         </label>
-      </div>
+      </div>`;
+  }).join(``)}
     </form>
     <div class="stats">
-      <ul class="stats">
-        <li class="stats__result stats__result--wrong"></li>
-        <li class="stats__result stats__result--slow"></li>
-        <li class="stats__result stats__result--fast"></li>
-        <li class="stats__result stats__result--correct"></li>
-        <li class="stats__result stats__result--wrong"></li>
-        <li class="stats__result stats__result--unknown"></li>
-        <li class="stats__result stats__result--slow"></li>
-        <li class="stats__result stats__result--unknown"></li>
-        <li class="stats__result stats__result--fast"></li>
-        <li class="stats__result stats__result--unknown"></li>
-      </ul>
+      ${stats(state.stats)}
     </div>
   </div>
-  <footer class="footer">
-    <a href="https://htmlacademy.ru" class="social-link social-link--academy">HTML Academy</a>
-    <span class="footer__made-in">Сделано в <a href="https://htmlacademy.ru" class="footer__link">HTML Academy</a> &copy; 2016</span>
-    <div class="footer__social-links">
-      <a href="https://twitter.com/htmlacademy_ru" class="social-link  social-link--tw">Твиттер</a>
-      <a href="https://www.instagram.com/htmlacademy/" class="social-link  social-link--ins">Инстаграм</a>
-      <a href="https://www.facebook.com/htmlacademy" class="social-link  social-link--fb">Фэйсбук</a>
-      <a href="https://vk.com/htmlacademy" class="social-link  social-link--vk">Вконтакте</a>
-    </div>
-  </footer>`.trim();
+  ${footer}`.trim();
 
-const screenGameTwo = getElementFromTemplate(templateGameTwo);
-const gameForm = screenGameTwo.querySelector(`.game__content`);
-const buttonBack = screenGameTwo.querySelector(`.back`);
+  const screenGameTwo = getElementFromTemplate(templateGameTwo);
+  const gameForm = screenGameTwo.querySelector(`.game__content`);
+  const buttonBack = screenGameTwo.querySelector(`.back`);
 
-buttonBack.onclick = () => showScreen(screenGreeting);
+  buttonBack.onclick = () => showScreen(screenGreeting());
 
-gameForm.onchange = () => {
-  showScreen(screenGameThree);
+  gameForm.onchange = () => {
+    const checkedOption = gameForm.querySelectorAll(`input[type="radio"]:checked`);
+    const answersArray = Array.from(checkedOption).map((answer) => {
+      return answer.value;
+    });
+    const answer = {
+      isCorrect: checkAnswer(answersArray, question),
+      time: calculateAnswerTime()
+    };
+    state.stats.push(checkAnswerTime(answer));
+    const newState = updateGameState(state, answer);
+    showScreen(setGameScreen(newState, setQuestionToAsk(questions, newState.questionIndex)));
+  };
+
+  return screenGameTwo;
 };
-
-export default screenGameTwo;

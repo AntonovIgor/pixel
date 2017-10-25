@@ -1,9 +1,20 @@
 import {getElementFromTemplate} from './get-element-from-template';
 import {showScreen} from './show-screen';
-import screenStats from './screen-stats';
 import screenGreeting from './screen-greeting';
+import footer from './templates/footer';
+import {headerTemplate} from './templates/header';
+import {stats} from './templates/stats';
+import {setGameScreen} from './engine/set-game-screen';
+import {checkAnswer} from './engine/check-answer';
+import {calculateAnswerTime} from './engine/calculate-answer-time';
+import {updateGameState} from './engine/update-game-state';
+import {setQuestionToAsk} from './engine/set-question-to-ask';
+import {checkAnswerTime} from './engine/check-answer-time';
+import questions from './data/fakeQuestions';
+import GAME_DATA from './data/game-data';
 
-const templateGameThree = `
+export default (question, state) => {
+  const templateGameThree = `
   <header class="header">
     <div class="header__back">
       <button class="back">
@@ -11,62 +22,44 @@ const templateGameThree = `
         <img src="img/logo_small.svg" width="101" height="44">
       </button>
     </div>
-    <h1 class="game__timer">NN</h1>
-    <div class="game__lives">
-      <img src="img/heart__empty.svg" class="game__heart" alt="Life" width="32" height="32">
-      <img src="img/heart__full.svg" class="game__heart" alt="Life" width="32" height="32">
-      <img src="img/heart__full.svg" class="game__heart" alt="Life" width="32" height="32">
-    </div>
+    ${headerTemplate(state)}
   </header>
   <div class="game">
-    <p class="game__task">Найдите рисунок среди изображений</p>
-    <form class="game__content  game__content--triple">
-      <div class="game__option">
-        <img src="http://placehold.it/304x455" alt="Option 1" width="304" height="455">
-      </div>
-      <div class="game__option  game__option--selected">
-        <img src="http://placehold.it/304x455" alt="Option 1" width="304" height="455">
-      </div>
-      <div class="game__option">
-        <img src="http://placehold.it/304x455" alt="Option 1" width="304" height="455">
-      </div>
+    <p class="game__task">${question.question}</p>
+    <form class="game__content  game__content--triple">    
+    ${[...question.answers].map((answer) => {
+    return `<div class="game__option">
+        <img src="${answer.image.url}" alt="Option 1" width="${answer.image.width}" height="${answer.image.height}">
+      </div>`;
+  }).join(``)}
     </form>
     <div class="stats">
-      <ul class="stats">
-        <li class="stats__result stats__result--wrong"></li>
-        <li class="stats__result stats__result--slow"></li>
-        <li class="stats__result stats__result--fast"></li>
-        <li class="stats__result stats__result--correct"></li>
-        <li class="stats__result stats__result--wrong"></li>
-        <li class="stats__result stats__result--unknown"></li>
-        <li class="stats__result stats__result--slow"></li>
-        <li class="stats__result stats__result--unknown"></li>
-        <li class="stats__result stats__result--fast"></li>
-        <li class="stats__result stats__result--unknown"></li>
-      </ul>
+      ${stats(state.stats)}
     </div>
   </div>
-  <footer class="footer">
-    <a href="https://htmlacademy.ru" class="social-link social-link--academy">HTML Academy</a>
-    <span class="footer__made-in">Сделано в <a href="https://htmlacademy.ru" class="footer__link">HTML Academy</a> &copy; 2016</span>
-    <div class="footer__social-links">
-      <a href="https://twitter.com/htmlacademy_ru" class="social-link  social-link--tw">Твиттер</a>
-      <a href="https://www.instagram.com/htmlacademy/" class="social-link  social-link--ins">Инстаграм</a>
-      <a href="https://www.facebook.com/htmlacademy" class="social-link  social-link--fb">Фэйсбук</a>
-      <a href="https://vk.com/htmlacademy" class="social-link  social-link--vk">Вконтакте</a>
-    </div>
-  </footer>`.trim();
+  ${footer}`.trim();
 
-const screenGameThree = getElementFromTemplate(templateGameThree);
-const gameOptions = Array.from(screenGameThree.querySelectorAll(`.game__option`));
-const buttonBack = screenGameThree.querySelector(`.back`);
+  const screenGameThree = getElementFromTemplate(templateGameThree);
+  const gameOptions = Array.from(screenGameThree.querySelectorAll(`.game__option`));
+  const buttonBack = screenGameThree.querySelector(`.back`);
 
-buttonBack.onclick = () => showScreen(screenGreeting);
+  buttonBack.onclick = () => showScreen(screenGreeting());
 
-gameOptions.forEach((option) => {
-  option.onclick = () => {
-    showScreen(screenStats);
-  };
-});
+  gameOptions.forEach((option) => {
+    option.onclick = () => {
+      option.classList.add(`game__option--selected`);
+      const answersArray = gameOptions.map((opt) => {
+        return (opt.classList.contains(`game__option--selected`)) ? GAME_DATA.ANSWER_TYPE.PHOTO : GAME_DATA.ANSWER_TYPE.PAINTING;
+      });
+      const answer = {
+        isCorrect: checkAnswer(answersArray, question),
+        time: calculateAnswerTime()
+      };
+      state.stats.push(checkAnswerTime(answer));
+      const newState = updateGameState(state, answer);
+      showScreen(setGameScreen(newState, setQuestionToAsk(questions, newState.questionIndex)));
+    };
+  });
 
-export default screenGameThree;
+  return screenGameThree;
+};

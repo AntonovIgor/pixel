@@ -1,9 +1,32 @@
 import {getElementFromTemplate} from './get-element-from-template';
 import {showScreen} from './show-screen';
 import screenGreeting from './screen-greeting';
+import footer from './templates/footer';
+import {stats} from './templates/stats';
+import GAME_DATA from './data/game-data';
+import {calculateFinalScores} from './engine/calculate-final-scores';
 
-const templateStats = `
-  <header class="header">
+const GAME_SCORES = GAME_DATA.SCORES;
+
+export default (state) => {
+  const gameResultTitle = (stateObj) => {
+    return stateObj.scores > 0 ? `Победа` : `Поражение`;
+  };
+
+  const countEntries = (array, key) => {
+    let count = 0;
+    array.forEach((element) => {
+      count = (element === key) ? ++count : count;
+    });
+    return count;
+  };
+
+  state.gamesHistory.push({
+    stats: state.stats,
+    lives: state.lives
+  });
+
+  const templateStats = `<header class="header">
     <div class="header__back">
       <button class="back">
         <img src="img/arrow_left.svg" width="45" height="45" alt="Back">
@@ -12,119 +35,72 @@ const templateStats = `
     </div>
   </header>
   <div class="result">
-    <h1>Победа!</h1>
-    <table class="result__table">
-      <tr>
-        <td class="result__number">1.</td>
-        <td colspan="2">
-          <ul class="stats">
-            <li class="stats__result stats__result--wrong"></li>
-            <li class="stats__result stats__result--slow"></li>
-            <li class="stats__result stats__result--fast"></li>
-            <li class="stats__result stats__result--correct"></li>
-            <li class="stats__result stats__result--wrong"></li>
-            <li class="stats__result stats__result--unknown"></li>
-            <li class="stats__result stats__result--slow"></li>
-            <li class="stats__result stats__result--unknown"></li>
-            <li class="stats__result stats__result--fast"></li>
-            <li class="stats__result stats__result--unknown"></li>
-          </ul>
-        </td>
-        <td class="result__points">×&nbsp;100</td>
-        <td class="result__total">900</td>
-      </tr>
-      <tr>
-        <td></td>
-        <td class="result__extra">Бонус за скорость:</td>
-        <td class="result__extra">1&nbsp;<span class="stats__result stats__result--fast"></span></td>
-        <td class="result__points">×&nbsp;50</td>
-        <td class="result__total">50</td>
-      </tr>
-      <tr>
-        <td></td>
-        <td class="result__extra">Бонус за жизни:</td>
-        <td class="result__extra">2&nbsp;<span class="stats__result stats__result--alive"></span></td>
-        <td class="result__points">×&nbsp;50</td>
-        <td class="result__total">100</td>
-      </tr>
-      <tr>
-        <td></td>
-        <td class="result__extra">Штраф за медлительность:</td>
-        <td class="result__extra">2&nbsp;<span class="stats__result stats__result--slow"></span></td>
-        <td class="result__points">×&nbsp;50</td>
-        <td class="result__total">-100</td>
-      </tr>
-      <tr>
-        <td colspan="5" class="result__total  result__total--final">950</td>
-      </tr>
-    </table>
-    <table class="result__table">
-      <tr>
-        <td class="result__number">2.</td>
-        <td>
-          <ul class="stats">
-            <li class="stats__result stats__result--wrong"></li>
-            <li class="stats__result stats__result--slow"></li>
-            <li class="stats__result stats__result--fast"></li>
-            <li class="stats__result stats__result--correct"></li>
-            <li class="stats__result stats__result--wrong"></li>
-            <li class="stats__result stats__result--unknown"></li>
-            <li class="stats__result stats__result--slow"></li>
-            <li class="stats__result stats__result--wrong"></li>
-            <li class="stats__result stats__result--fast"></li>
-            <li class="stats__result stats__result--wrong"></li>
-          </ul>
-        </td>
-        <td class="result__total"></td>
-        <td class="result__total  result__total--final">fail</td>
-      </tr>
-    </table>
-    <table class="result__table">
-      <tr>
-        <td class="result__number">3.</td>
-        <td colspan="2">
-          <ul class="stats">
-            <li class="stats__result stats__result--wrong"></li>
-            <li class="stats__result stats__result--slow"></li>
-            <li class="stats__result stats__result--fast"></li>
-            <li class="stats__result stats__result--correct"></li>
-            <li class="stats__result stats__result--wrong"></li>
-            <li class="stats__result stats__result--unknown"></li>
-            <li class="stats__result stats__result--slow"></li>
-            <li class="stats__result stats__result--unknown"></li>
-            <li class="stats__result stats__result--fast"></li>
-            <li class="stats__result stats__result--unknown"></li>
-          </ul>
-        </td>
-        <td class="result__points">×&nbsp;100</td>
-        <td class="result__total">900</td>
-      </tr>
-      <tr>
-        <td></td>
-        <td class="result__extra">Бонус за жизни:</td>
-        <td class="result__extra">2&nbsp;<span class="stats__result stats__result--alive"></span></td>
-        <td class="result__points">×&nbsp;50</td>
-        <td class="result__total">100</td>
-      </tr>
-      <tr>
-        <td colspan="5" class="result__total  result__total--final">950</td>
-      </tr>
-    </table>
+    <h1>${gameResultTitle(state)}!</h1>
+    ${state.gamesHistory.map((game, index) => {
+    const rightAnswers = countEntries(game.stats, GAME_DATA.ANSWER.CORRECT);
+    const totalScores = calculateFinalScores(game.stats, game.lives);
+    const fast = countEntries(game.stats, GAME_DATA.ANSWER.FAST);
+    const alive = game.lives;
+    const slow = countEntries(game.stats, GAME_DATA.ANSWER.SLOW);
+    const answers = game.stats;
+
+    if (totalScores > 0) {
+      return `<table class="result__table">
+            <tr>
+              <td class="result__number">${index + 1}.</td>
+              <td colspan="2">
+                ${stats(answers)}
+              </td>
+              <td class="result__points">×&nbsp;${GAME_SCORES.SUCCESS}</td>
+              <td class="result__total">${rightAnswers * GAME_SCORES.SUCCESS}</td>
+            </tr>
+            ${fast ? `<tr>
+              <td></td>
+              <td class="result__extra">Бонус за скорость:</td>
+              <td class="result__extra">${fast}&nbsp;<span class="stats__result stats__result--fast"></span></td>
+              <td class="result__points">×&nbsp;${GAME_SCORES.FAST}</td>
+              <td class="result__total">${fast * GAME_SCORES.FAST}</td>
+            </tr>` : ``}      
+            ${alive > 0 ? `<tr>
+              <td></td>
+              <td class="result__extra">Бонус за жизни:</td>
+              <td class="result__extra">${alive}&nbsp;<span class="stats__result stats__result--alive"></span></td>
+              <td class="result__points">×&nbsp;${GAME_SCORES.EXTRA}</td>
+              <td class="result__total">${alive * GAME_SCORES.EXTRA}</td>
+            </tr>` : ``}      
+            ${slow > 0 ? `<tr>
+              <td></td>
+              <td class="result__extra">Штраф за медлительность:</td>
+              <td class="result__extra">${slow}&nbsp;<span class="stats__result stats__result--slow"></span></td>
+              <td class="result__points">×&nbsp;${GAME_SCORES.SLOW}</td>
+              <td class="result__total">${-slow * GAME_SCORES.SLOW}</td>
+            </tr>` : ``}      
+            <tr>
+              <td colspan="5" class="result__total  result__total--final">${totalScores}</td>
+            </tr>
+          </table>`;
+    } else {
+      return `<table class="result__table">
+          <tr>
+            <td class="result__number">${index + 1}.</td>
+            <td>
+              <ul class="stats">
+                ${stats(answers)}
+              </ul>
+            </td>
+            <td class="result__total"></td>
+            <td class="result__total  result__total--final">fail</td>
+          </tr>
+        </table>`;
+    }
+  })}    
   </div>
-  <footer class="footer">
-    <a href="https://htmlacademy.ru" class="social-link social-link--academy">HTML Academy</a>
-    <span class="footer__made-in">Сделано в <a href="https://htmlacademy.ru" class="footer__link">HTML Academy</a> &copy; 2016</span>
-    <div class="footer__social-links">
-      <a href="https://twitter.com/htmlacademy_ru" class="social-link  social-link--tw">Твиттер</a>
-      <a href="https://www.instagram.com/htmlacademy/" class="social-link  social-link--ins">Инстаграм</a>
-      <a href="https://www.facebook.com/htmlacademy" class="social-link  social-link--fb">Фэйсбук</a>
-      <a href="https://vk.com/htmlacademy" class="social-link  social-link--vk">Вконтакте</a>
-    </div>
-  </footer>`.trim();
+  ${footer}`.trim();
 
-const screenStats = getElementFromTemplate(templateStats);
-const buttonBack = screenStats.querySelector(`.back`);
+  const screenStats = getElementFromTemplate(templateStats);
+  const buttonBack = screenStats.querySelector(`.back`);
 
-buttonBack.onclick = () => showScreen(screenGreeting);
+  buttonBack.onclick = () => showScreen(screenGreeting());
 
-export default screenStats;
+  return screenStats;
+};
