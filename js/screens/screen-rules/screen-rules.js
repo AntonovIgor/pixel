@@ -1,12 +1,12 @@
-import {getElementFromTemplate} from './get-element-from-template';
-import {showScreen} from './show-screen';
-import screenGreeting from './screen-greeting';
-import footer from './templates/footer';
-import {initialState} from './data/initialState';
-import GAME_DATA from './data/game-data';
-import {setGameScreen} from './engine/set-game-screen';
-import {setQuestionToAsk} from './engine/set-question-to-ask';
-import questions from './data/fakeQuestions';
+import {getElementFromTemplate} from './../../engine/get-element-from-template';
+import {showScreen} from './../../engine/show-screen';
+import screenGreeting from './../screen-greeting/screen-greeting';
+import footer from './../../templates/footer';
+import {initialState} from './../../data/initialState';
+import GAME_DATA from './../../data/game-data';
+import {setGameScreen} from './../../engine/set-game-screen';
+import {setQuestionToAsk} from './../../engine/set-question-to-ask';
+import questions from './../../data/fakeQuestions';
 
 export default () => {
   const templateRules = `

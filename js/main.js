@@ -1,4 +1,4 @@
-import screenIntro from './screen-intro';
-import {showScreen} from './show-screen';
+import screenIntro from './screens/screen-intro/screen-intro';
+import {showScreen} from './engine/show-screen';
 
 showScreen(screenIntro());

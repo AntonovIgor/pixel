@@ -1,8 +1,8 @@
-import {getElementFromTemplate} from './get-element-from-template';
-import {showScreen} from './show-screen';
-import screenGreeting from './screen-greeting';
-import footer from './templates/footer';
-import GAME_DATA from './data/game-data';
+import {getElementFromTemplate} from './../../engine/get-element-from-template';
+import {showScreen} from './../../engine/show-screen';
+import screenGreeting from './../screen-greeting/screen-greeting';
+import footer from './../../templates/footer';
+import GAME_DATA from './../../data/game-data';
 
 export default () => {
   const templateIntro = `

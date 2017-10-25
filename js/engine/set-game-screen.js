@@ -1,8 +1,8 @@
 import GAME_DATA from '../data/game-data';
-import screenGameOne from '../screen-game-one';
-import screenGameTwo from '../screen-game-two';
-import screenGameThree from '../screen-game-three';
-import screenStats from '../screen-stats';
+import screenGameOne from '../screens/screen-game-one/screen-game-one';
+import screenGameTwo from '../screens/screen-game-two/screen-game-two';
+import screenGameThree from '../screens/screen-game-three/screen-game-three';
+import screenStats from '../screens/screen-stats/screen-stats';
 
 export const setGameScreen = (state, question) => {
   const newState = Object.assign({}, state);
