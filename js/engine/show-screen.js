@@ -1,6 +1,6 @@
 const mainBox = document.querySelector(`main.central`);
 
-export const showScreen = (screen) => {
+export const showScreen = (view) => {
   mainBox.innerHTML = ``;
-  mainBox.appendChild(screen);
+  mainBox.appendChild(view.element);
 };
