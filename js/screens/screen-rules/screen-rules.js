@@ -9,7 +9,7 @@ export default () => {
 
   screenRules.onStartGame = (initialState, playerNameField) => {
     const state = Object.assign({}, initialState);
-    state.playerName = playerNameField.value.trim();
+    state.playerName = playerNameField.trim();
     const questionToAsk = setQuestionToAsk(questions, state.questionIndex);
     showScreen(setGameScreen(state, questionToAsk));
   };

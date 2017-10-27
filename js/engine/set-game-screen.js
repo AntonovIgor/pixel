@@ -11,11 +11,11 @@ export const setGameScreen = (state, question) => {
     if (question) {
       const gameType = question.type;
       if (gameType === GAME_DATA.GAME_TYPE.TWO_OF_TWO) {
-        screen = screenGameOne(question, newState);
+        screen = screenGameOne(newState, question);
       } else if (gameType === GAME_DATA.GAME_TYPE.TINDER_LIKE) {
-        screen = screenGameTwo(question, newState);
+        screen = screenGameTwo(newState, question);
       } else if (gameType === GAME_DATA.GAME_TYPE.ONE_OF_THREE) {
-        screen = screenGameThree(question, newState);
+        screen = screenGameThree(newState, question);
       }
     } else {
       screen = screenStats(newState);

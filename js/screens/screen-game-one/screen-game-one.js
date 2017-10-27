@@ -8,8 +8,8 @@ import {setQuestionToAsk} from './../../engine/set-question-to-ask';
 import {checkAnswerTime} from './../../engine/check-answer-time';
 import questions from './../../data/fakeQuestions';
 
-export default (question, state) => {
-  const screenGameOne = new ScreenGameOne(question, state);
+export default (state, question) => {
+  const screenGameOne = new ScreenGameOne(state, question);
 
   screenGameOne.onAnswerSelect = (gameOptions, answersArray) => {
     if (answersArray.length === gameOptions.length) {
@@ -25,5 +25,3 @@ export default (question, state) => {
 
   return screenGameOne;
 };
-
-

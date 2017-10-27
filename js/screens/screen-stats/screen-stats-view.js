@@ -1,6 +1,7 @@
 import AbstractView from '../../view.js';
 import questions from '../../data/fakeQuestions';
 import footer from './../../templates/footer';
+import headerLogo from './../../templates/logo-button';
 import {stats} from './../../templates/stats';
 import GAME_DATA from './../../data/game-data';
 import {calculateFinalScores} from './../../engine/calculate-final-scores';
@@ -32,15 +33,9 @@ export default class ScreenStats extends AbstractView {
 
   get template() {
     return `<header class="header">
-      <div class="header__back">
-        <button class="back">
-          <img src="img/arrow_left.svg" width="45" height="45" alt="Back">
-          <img src="img/logo_small.svg" width="101" height="44">
-        </button>
-      </div>
     </header>
     <div class="result">
-      <h1>${this.gameResultTitle(this.state)}!</h1>
+      <h1>${ScreenStats.gameResultTitle(this.state)}!</h1>
       ${this.state.gamesHistory.map((game, index) => {
         const rightAnswers = this.countEntries(game.stats, GAME_DATA.ANSWER.CORRECT);
         const totalScores = calculateFinalScores(game.stats, game.lives);
@@ -104,6 +99,6 @@ export default class ScreenStats extends AbstractView {
   }
 
   bind() {
-
+    this.element.querySelector(`.header`).appendChild(headerLogo().element);
   }
 }
