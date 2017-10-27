@@ -11,7 +11,7 @@ import questions from './../../data/fakeQuestions';
 export default (state, question) => {
   const screenGameThree = new ScreenGameThree(state, question);
 
-  screenGameThree.onAnswerClick = (state, answersArray) => {
+  screenGameThree.onAnswerClick = (answersArray) => {
     const answer = {
       isCorrect: checkAnswer(answersArray, question),
       time: calculateAnswerTime()

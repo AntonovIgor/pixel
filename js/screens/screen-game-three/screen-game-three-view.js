@@ -21,10 +21,10 @@ export default class ScreenGameThree extends AbstractView {
       <p class="game__task">${this.question.question}</p>
       <form class="game__content  game__content--triple">    
       ${[...this.question.answers].map((answer) => {
-        return `<div class="game__option">
+    return `<div class="game__option">
           <img src="${answer.image.url}" alt="Option 1" width="${answer.image.width}" height="${answer.image.height}">
         </div>`;
-      }).join(``)}
+  }).join(``)}
       </form>
       <div class="stats">
         ${stats(this.state.stats)}
@@ -43,7 +43,7 @@ export default class ScreenGameThree extends AbstractView {
         const answersArray = gameOptions.map((opt) => {
           return (opt.classList.contains(`game__option--selected`)) ? GAME_DATA.ANSWER_TYPE.PHOTO : GAME_DATA.ANSWER_TYPE.PAINTING;
         });
-        this.onAnswerClick(this.state, answersArray);
+        this.onAnswerClick(answersArray);
       };
     });
   }

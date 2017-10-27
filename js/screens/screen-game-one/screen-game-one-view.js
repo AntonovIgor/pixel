@@ -14,31 +14,31 @@ export default class ScreenGameOne extends AbstractView {
 
   get template() {
     return `<header class="header">
-        ${headerTemplate(this.state)}
-      </header>
-      <div class="game">
-        <p class="game__task">${this.question.question}</p>
-        <form class="game__content">
-        ${[...this.question.answers].map((answer) => {
-          const optIndex = this.question.answers.indexOf(answer) + 1;
-          return `<div class="game__option">
-            <img src="${answer.image.url}" alt="Option ${optIndex}" width="${answer.image.width}" height="${answer.image.height}">
-            <label class="game__answer game__answer--photo">
-              <input name="question${optIndex}" type="radio" value="photo">
-              <span>Фото</span>
-            </label>
-            <label class="game__answer game__answer--paint">
-              <input name="question${optIndex}" type="radio" value="painting">
-              <span>Рисунок</span>
-            </label>
-          </div>`;
-        }).join(``)}
-        </form>
-        <div class="stats">
-          ${stats(this.state.stats)}
-        </div>
+      ${headerTemplate(this.state)}
+    </header>
+    <div class="game">
+      <p class="game__task">${this.question.question}</p>
+      <form class="game__content">
+      ${[...this.question.answers].map((answer) => {
+    const optIndex = this.question.answers.indexOf(answer) + 1;
+    return `<div class="game__option">
+          <img src="${answer.image.url}" alt="Option ${optIndex}" width="${answer.image.width}" height="${answer.image.height}">
+          <label class="game__answer game__answer--photo">
+            <input name="question${optIndex}" type="radio" value="photo">
+            <span>Фото</span>
+          </label>
+          <label class="game__answer game__answer--paint">
+            <input name="question${optIndex}" type="radio" value="painting">
+            <span>Рисунок</span>
+          </label>
+        </div>`;
+  }).join(``)}
+      </form>
+      <div class="stats">
+        ${stats(this.state.stats)}
       </div>
-      ${footer}`.trim();
+    </div>
+    ${footer}`.trim();
   }
 
   bind() {

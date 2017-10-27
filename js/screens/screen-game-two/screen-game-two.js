@@ -11,7 +11,7 @@ import questions from './../../data/fakeQuestions';
 export default (state, question) => {
   const screenGameTwo = new ScreenGameTwo(state, question);
 
-  screenGameTwo.onChangeForm = (answersArray, state) => {
+  screenGameTwo.onChangeForm = (answersArray) => {
     const answer = {
       isCorrect: checkAnswer(answersArray, question),
       time: calculateAnswerTime()

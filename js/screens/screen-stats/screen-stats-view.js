@@ -37,15 +37,14 @@ export default class ScreenStats extends AbstractView {
     <div class="result">
       <h1>${ScreenStats.gameResultTitle(this.state)}!</h1>
       ${this.state.gamesHistory.map((game, index) => {
-        const rightAnswers = this.countEntries(game.stats, GAME_DATA.ANSWER.CORRECT);
-        const totalScores = calculateFinalScores(game.stats, game.lives);
-        const fast = this.countEntries(game.stats, GAME_DATA.ANSWER.FAST);
-        const alive = game.lives;
-        const slow = this.countEntries(game.stats, GAME_DATA.ANSWER.SLOW);
-        const answers = game.stats;
-  
-        if (totalScores > 0) {
-          return `<table class="result__table">
+    const rightAnswers = this.countEntries(game.stats, GAME_DATA.ANSWER.CORRECT);
+    const totalScores = calculateFinalScores(game.stats, game.lives);
+    const fast = this.countEntries(game.stats, GAME_DATA.ANSWER.FAST);
+    const alive = game.lives;
+    const slow = this.countEntries(game.stats, GAME_DATA.ANSWER.SLOW);
+    const answers = game.stats;
+    if (totalScores > 0) {
+      return `<table class="result__table">
               <tr>
                 <td class="result__number">${index + 1}.</td>
                 <td colspan="2">
@@ -79,8 +78,8 @@ export default class ScreenStats extends AbstractView {
                 <td colspan="5" class="result__total  result__total--final">${totalScores}</td>
               </tr>
             </table>`;
-        } else {
-          return `<table class="result__table">
+    } else {
+      return `<table class="result__table">
             <tr>
               <td class="result__number">${index + 1}.</td>
               <td>
@@ -92,8 +91,8 @@ export default class ScreenStats extends AbstractView {
               <td class="result__total  result__total--final">fail</td>
             </tr>
           </table>`;
-        }
-      })}    
+    }
+  })}    
     </div>
     ${footer}`.trim();
   }

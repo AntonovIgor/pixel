@@ -20,8 +20,8 @@ export default class ScreenGameTwo extends AbstractView {
       <p class="game__task">${this.question.question}</p>
       <form class="game__content  game__content--wide">
        ${[...this.question.answers].map((answer) => {
-        const optIndex = this.question.answers.indexOf(answer) + 1;
-        return `<div class="game__option">
+    const optIndex = this.question.answers.indexOf(answer) + 1;
+    return `<div class="game__option">
           <img src="${answer.image.url}" alt="Option ${optIndex}" width="${answer.image.width}" height="${answer.image.height}">
           <label class="game__answer  game__answer--photo">
             <input name="question${optIndex}" type="radio" value="photo">
@@ -32,7 +32,7 @@ export default class ScreenGameTwo extends AbstractView {
             <span>Рисунок</span>
           </label>
         </div>`;
-      }).join(``)}
+  }).join(``)}
       </form>
       <div class="stats">
         ${stats(this.state.stats)}
@@ -44,13 +44,13 @@ export default class ScreenGameTwo extends AbstractView {
   bind() {
     this.element.querySelector(`.header`).appendChild(headerLogo().element);
     const gameForm = this.element.querySelector(`.game__content`);
-    // const buttonBack = screenGameTwo.querySelector(`.back`);
+
     gameForm.onchange = () => {
       const checkedOption = gameForm.querySelectorAll(`input[type="radio"]:checked`);
       const answersArray = Array.from(checkedOption).map((answer) => {
         return answer.value;
       });
-      this.onChangeForm(answersArray, this.state);
+      this.onChangeForm(answersArray);
     };
   }
 }
