@@ -1,8 +1,7 @@
 import AbstractView from '../../view.js';
 import questions from '../../data/fakeQuestions';
 import footer from './../../templates/footer';
-import {headerTemplate} from './../../templates/header';
-import headerLogo from './../../templates/logo-button';
+import header from './../../templates/header/header';
 import {stats} from './../../templates/stats';
 
 export default class ScreenGameOne extends AbstractView {
@@ -13,9 +12,7 @@ export default class ScreenGameOne extends AbstractView {
   }
 
   get template() {
-    return `<header class="header">
-      ${headerTemplate(this.state)}
-    </header>
+    return `<header class="header"></header>
     <div class="game">
       <p class="game__task">${this.question.question}</p>
       <form class="game__content">
@@ -38,15 +35,14 @@ export default class ScreenGameOne extends AbstractView {
         ${stats(this.state.stats)}
       </div>
     </div>
-    ${footer}`.trim();
+    ${footer}`;
   }
 
   bind() {
-    this.element.querySelector(`.header`).appendChild(headerLogo().element);
+    const headerElement = this.element.querySelector(`header.header`);
+    headerElement.appendChild(header(this.state.time, this.state.lives));
     const gameForm = this.element.querySelector(`.game__content`);
     const gameOptions = this.element.querySelectorAll(`.game__option`);
-    // const buttonBack = this.element.querySelector(`.back`);
-    // buttonBack.onclick = () => showScreen(screenGreeting());
 
     gameForm.onchange = () => {
       const checkedOption = gameForm.querySelectorAll(`input[type="radio"]:checked`);

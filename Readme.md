@@ -1,7 +1,7 @@
 # Личный проект «Пиксель хантер» [![Build status][travis-image]][travis-url]
 
 * Студент: [Евгений Левашов](https://up.htmlacademy.ru/ecmascript/3/user/142769).
-* Наставник: [Александр Быков] (https://htmlacademy.ru/profile/id7107).
+* Наставник: [Александр Быков](https://htmlacademy.ru/profile/id7107).
 
 ---
 

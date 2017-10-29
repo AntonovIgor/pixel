@@ -1,8 +1,7 @@
 import AbstractView from '../../view.js';
 import questions from '../../data/fakeQuestions';
 import footer from './../../templates/footer';
-import {headerTemplate} from './../../templates/header';
-import headerLogo from './../../templates/logo-button';
+import header from './../../templates/header/header';
 import {stats} from './../../templates/stats';
 import GAME_DATA from './../../data/game-data';
 
@@ -14,9 +13,7 @@ export default class ScreenGameThree extends AbstractView {
   }
 
   get template() {
-    return `<header class="header">
-      ${headerTemplate(this.state)}
-    </header>
+    return `<header class="header"></header>
     <div class="game">
       <p class="game__task">${this.question.question}</p>
       <form class="game__content  game__content--triple">    
@@ -34,7 +31,8 @@ export default class ScreenGameThree extends AbstractView {
   }
 
   bind() {
-    this.element.querySelector(`.header`).appendChild(headerLogo().element);
+    const headerElement = this.element.querySelector(`header.header`);
+    headerElement.appendChild(header(this.state.time, this.state.lives));
     const gameOptions = Array.from(this.element.querySelectorAll(`.game__option`));
 
     gameOptions.forEach((option) => {

@@ -1,25 +1,22 @@
 import ScreenGameOne from '../screen-game-one/screen-game-one-view';
-import {showScreen} from './../../engine/show-screen';
-import {setGameScreen} from './../../engine/set-game-screen';
-import {checkAnswer} from './../../engine/check-answer';
-import {calculateAnswerTime} from './../../engine/calculate-answer-time';
-import {updateGameState} from './../../engine/update-game-state';
-import {setQuestionToAsk} from './../../engine/set-question-to-ask';
-import {checkAnswerTime} from './../../engine/check-answer-time';
-import questions from './../../data/fakeQuestions';
+import {Timer} from './../../engine/timer';
+import {showNextScreen} from './../../engine/show-next-screen';
 
 export default (state, question) => {
   const screenGameOne = new ScreenGameOne(state, question);
 
+  let answerTime = state.time;
+
+  const timer = setInterval(() => {
+    const timeBox = screenGameOne.element.querySelector(`.game__timer`);
+    const time = new Timer(timeBox.textContent).tick();
+    timeBox.textContent = time;
+    answerTime = state.time - time;
+  }, 1000);
+
   screenGameOne.onAnswerSelect = (gameOptions, answersArray) => {
     if (answersArray.length === gameOptions.length) {
-      const answer = {
-        isCorrect: checkAnswer(answersArray, question),
-        time: calculateAnswerTime(state)
-      };
-      state.stats.push(checkAnswerTime(answer));
-      const newState = updateGameState(state, answer);
-      showScreen(setGameScreen(newState, setQuestionToAsk(questions, newState.questionIndex)));
+      showNextScreen(state, timer, answerTime, answersArray, question);
     }
   };
 
