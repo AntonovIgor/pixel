@@ -13,11 +13,13 @@ export default class ScreenGameThree extends AbstractView {
   }
 
   get template() {
+    const answers = this.question.answers;
+
     return `<header class="header"></header>
     <div class="game">
       <p class="game__task">${this.question.question}</p>
       <form class="game__content  game__content--triple">    
-      ${[...this.question.answers].map((answer) => {
+      ${answers.map((answer) => {
     return `<div class="game__option">
           <img src="${answer.image.url}" alt="Option 1" width="${answer.image.width}" height="${answer.image.height}">
         </div>`;

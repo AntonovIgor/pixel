@@ -12,12 +12,14 @@ export default class ScreenGameOne extends AbstractView {
   }
 
   get template() {
+    const answers = this.question.answers;
+
     return `<header class="header"></header>
     <div class="game">
       <p class="game__task">${this.question.question}</p>
       <form class="game__content">
-      ${[...this.question.answers].map((answer) => {
-    const optIndex = this.question.answers.indexOf(answer) + 1;
+      ${answers.map((answer) => {
+    const optIndex = answers.indexOf(answer) + 1;
     return `<div class="game__option">
           <img src="${answer.image.url}" alt="Option ${optIndex}" width="${answer.image.width}" height="${answer.image.height}">
           <label class="game__answer game__answer--photo">
