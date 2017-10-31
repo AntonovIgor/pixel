@@ -1,7 +1,6 @@
 import AbstractView from '../../view.js';
-import questions from '../../data/fakeQuestions';
 import footer from './../../templates/footer';
-import header from './../../templates/header/header';
+import {getHeader} from '../../templates/header';
 import {stats} from './../../templates/stats';
 import GAME_DATA from './../../data/game-data';
 import {calculateFinalScores} from './../../engine/calculate-final-scores';
@@ -12,8 +11,7 @@ export default class ScreenStats extends AbstractView {
   constructor(state) {
     super();
     this.state = state;
-    this.question = questions[this.state.questionIndex];
-    state.gamesHistory.push({
+    this.gamesHistory = state.gamesHistory.push({
       stats: state.stats,
       lives: state.lives
     });
@@ -32,11 +30,14 @@ export default class ScreenStats extends AbstractView {
   }
 
   get template() {
-    return `<header class="header"></header>
+    return `
+    ${getHeader()}
     <div class="result">
       <h1>${ScreenStats.gameResultTitle(this.state)}!</h1>
       ${this.state.gamesHistory.map((game, index) => {
-    const rightAnswers = this.countEntries(game.stats, GAME_DATA.ANSWER.CORRECT);
+    const rightAnswers = game.stats.filter((answer) => {
+      return answer !== GAME_DATA.ANSWER.WRONG;
+    });
     const totalScores = calculateFinalScores(game.stats, game.lives);
     const fast = this.countEntries(game.stats, GAME_DATA.ANSWER.FAST);
     const alive = game.lives;
@@ -50,7 +51,7 @@ export default class ScreenStats extends AbstractView {
                   ${stats(answers)}
                 </td>
                 <td class="result__points">×&nbsp;${GAME_SCORES.SUCCESS}</td>
-                <td class="result__total">${rightAnswers * GAME_SCORES.SUCCESS}</td>
+                <td class="result__total">${rightAnswers.length * GAME_SCORES.SUCCESS}</td>
               </tr>
               ${fast ? `<tr>
                 <td></td>
@@ -97,7 +98,10 @@ export default class ScreenStats extends AbstractView {
   }
 
   bind() {
-    const headerElement = this.element.querySelector(`header.header`);
-    headerElement.appendChild(header());
+    const buttonBack = this.element.querySelector(`.back`);
+
+    buttonBack.onclick = () => {
+      this.onReturnButtonClick();
+    };
   }
 }
