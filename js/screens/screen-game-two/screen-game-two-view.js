@@ -1,7 +1,7 @@
 import AbstractView from '../../view.js';
 import questions from '../../data/fakeQuestions';
 import footer from './../../templates/footer';
-import header from './../../templates/header/header';
+import {getHeader} from '../../templates/header';
 import {stats} from './../../templates/stats';
 
 export default class ScreenGameTwo extends AbstractView {
@@ -9,12 +9,15 @@ export default class ScreenGameTwo extends AbstractView {
     super();
     this.state = state;
     this.question = questions[this.state.questionIndex];
+    this.time = state.timer.value;
+    this.lives = state.lives;
   }
 
   get template() {
     const answers = this.question.answers;
 
-    return `<header class="header"></header>
+    return `
+    ${getHeader(this.time, this.lives)}
     <div class="game">
       <p class="game__task">${this.question.question}</p>
       <form class="game__content  game__content--wide">
@@ -41,8 +44,12 @@ export default class ScreenGameTwo extends AbstractView {
   }
 
   bind() {
-    const headerElement = this.element.querySelector(`header.header`);
-    headerElement.appendChild(header(this.state.time, this.state.lives));
+    const buttonBack = this.element.querySelector(`.back`);
+
+    buttonBack.onclick = () => {
+      this.onReturnButtonClick();
+    };
+
     const gameForm = this.element.querySelector(`.game__content`);
 
     gameForm.onchange = () => {
@@ -50,7 +57,7 @@ export default class ScreenGameTwo extends AbstractView {
       const answersArray = Array.from(checkedOption).map((answer) => {
         return answer.value;
       });
-      this.onChangeForm(answersArray);
+      this.onAnswerClick(answersArray);
     };
   }
 }

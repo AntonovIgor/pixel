@@ -18,6 +18,8 @@ export default {
       Готовы?
     </p>`,
   ANSWERS_MINIMUM: 10,
+  LIVES: 3,
+  TIME: 30,
   SCORES: {
     SUCCESS: 100,
     LOSE: -1,
@@ -43,6 +45,5 @@ export default {
     TWO_OF_TWO: `two-of-two`,
     TINDER_LIKE: `tinder-like`,
     ONE_OF_THREE: `one-of-three`
-  },
-  LIVES: 3
+  }
 };

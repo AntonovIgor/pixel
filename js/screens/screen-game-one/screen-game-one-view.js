@@ -1,20 +1,23 @@
 import AbstractView from '../../view.js';
 import questions from '../../data/fakeQuestions';
 import footer from './../../templates/footer';
-import header from './../../templates/header/header';
+import {getHeader} from '../../templates/header';
 import {stats} from './../../templates/stats';
 
 export default class ScreenGameOne extends AbstractView {
   constructor(state) {
     super();
     this.state = state;
-    this.question = questions[this.state.questionIndex];
+    this.question = questions[state.questionIndex];
+    this.time = state.timer.value;
+    this.lives = state.lives;
   }
 
   get template() {
     const answers = this.question.answers;
 
-    return `<header class="header"></header>
+    return `
+    ${getHeader(this.time, this.lives)}
     <div class="game">
       <p class="game__task">${this.question.question}</p>
       <form class="game__content">
@@ -37,14 +40,17 @@ export default class ScreenGameOne extends AbstractView {
         ${stats(this.state.stats)}
       </div>
     </div>
-    ${footer}`;
+    ${footer}`.trim();
   }
 
   bind() {
-    const headerElement = this.element.querySelector(`header.header`);
-    headerElement.appendChild(header(this.state.time, this.state.lives));
+    const gameOptions = Array.from(this.element.querySelectorAll(`.game__option`));
+    const buttonBack = this.element.querySelector(`.back`);
     const gameForm = this.element.querySelector(`.game__content`);
-    const gameOptions = this.element.querySelectorAll(`.game__option`);
+
+    buttonBack.onclick = () => {
+      this.onReturnButtonClick();
+    };
 
     gameForm.onchange = () => {
       const checkedOption = gameForm.querySelectorAll(`input[type="radio"]:checked`);
@@ -52,7 +58,9 @@ export default class ScreenGameOne extends AbstractView {
         return answer.value;
       });
 
-      this.onAnswerSelect(gameOptions, answersArray);
+      if (answersArray.length === gameOptions.length) {
+        this.onAnswerClick(answersArray);
+      }
     };
   }
 }

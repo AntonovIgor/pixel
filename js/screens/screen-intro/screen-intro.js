@@ -1,13 +1,17 @@
 import {showScreen} from './../../engine/show-screen';
 import ScreenIntro from './../screen-intro/screen-intro-view';
-import screenGreeting from './../screen-greeting/screen-greeting';
+import Application from '../../application';
 
-export default () => {
-  const screenIntro = new ScreenIntro();
+export default class IntroScreen {
+  constructor() {
+    this.screen = new ScreenIntro();
+  }
 
-  screenIntro.onContinueButtonClick = () => {
-    showScreen(screenGreeting());
-  };
+  init() {
+    showScreen(this.screen);
 
-  return screenIntro;
-};
+    this.screen.onContinueButtonClick = () => {
+      Application.showGreeting();
+    };
+  }
+}
