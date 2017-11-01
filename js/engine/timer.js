@@ -1,6 +1,7 @@
 export class Timer {
   constructor(time) {
     this.value = time;
+    this.duration = time;
     this.message = `Время истекло`;
   }
 
@@ -9,7 +10,7 @@ export class Timer {
   }
 
   reset() {
-    this.value = 0;
+    this.value = this.duration;
     return this.value;
   }
 }

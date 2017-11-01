@@ -3,6 +3,7 @@ import questions from '../../data/fakeQuestions';
 import footer from './../../templates/footer';
 import {getHeader} from '../../templates/header';
 import {stats} from './../../templates/stats';
+import {checkAnswer} from '../../engine/check-answer';
 
 export default class ScreenGameOne extends AbstractView {
   constructor(state) {
@@ -59,7 +60,7 @@ export default class ScreenGameOne extends AbstractView {
       });
 
       if (answersArray.length === gameOptions.length) {
-        this.onAnswerClick(answersArray);
+        this.onAnswerClick(checkAnswer(answersArray, this.question));
       }
     };
   }

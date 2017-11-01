@@ -4,6 +4,7 @@ import footer from './../../templates/footer';
 import {getHeader} from '../../templates/header';
 import {stats} from './../../templates/stats';
 import GAME_DATA from './../../data/game-data';
+import {checkAnswer} from '../../engine/check-answer';
 
 export default class ScreenGameThree extends AbstractView {
   constructor(state) {
@@ -49,7 +50,7 @@ export default class ScreenGameThree extends AbstractView {
         const answersArray = gameOptions.map((opt) => {
           return (opt.classList.contains(`game__option--selected`)) ? GAME_DATA.ANSWER_TYPE.PHOTO : GAME_DATA.ANSWER_TYPE.PAINTING;
         });
-        this.onAnswerClick(answersArray);
+        this.onAnswerClick(checkAnswer(answersArray, this.question));
       };
     });
   }

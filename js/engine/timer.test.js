@@ -10,7 +10,7 @@ describe(``, () => {
     assert.equal(new Timer(0).tick(), `Время истекло`);
   });
 
-  it(`При сбросе таймера (вызов метода reset) значение таймера равно нулю`, () => {
-    assert.equal(new Timer(30).reset(), 0);
+  it(`При сбросе таймера (вызов метода reset) значение таймера равно 30`, () => {
+    assert.equal(new Timer(30).reset(), 30);
   });
 });
