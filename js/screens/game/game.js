@@ -1,5 +1,4 @@
 import {showScreen} from '../../engine/show-screen';
-import {checkAnswer} from '../../engine/check-answer';
 import {calculateFinalScores} from '../../engine/calculate-final-scores';
 import {checkAnswerTime} from '../../engine/check-answer-time';
 import ScreenGameOne from '../screen-game-one/screen-game-one-view';
@@ -27,17 +26,13 @@ export default class GameScreen {
 
   startTimer(screen) {
     const timeBox = screen.element.querySelector(`.game__timer`);
+    timeBox.textContent = this.timer.duration;
     this.timeMachine = setInterval(() => {
       this.time = new Timer(timeBox.textContent).tick();
       timeBox.textContent = this.time;
 
       if (this.time === this.timer.message) {
-        const answer = {
-          isCorrect: false,
-          time: this.time
-        };
-        this.stats.push(checkAnswerTime(answer));
-        this.nextScreen();
+        this.onAnswer(false);
       }
     }, 1000);
   }
@@ -47,6 +42,22 @@ export default class GameScreen {
       this.timer.reset();
       clearInterval(this.timeMachine);
     }
+  }
+
+  onAnswer(answer) {
+    this.stopTimer();
+    const userAnswer = {
+      isCorrect: answer,
+      time: GAME_DATA.TIME - this.time
+    };
+    this.stats.push(checkAnswerTime(userAnswer));
+    if (userAnswer.isCorrect) {
+      this.scores = calculateFinalScores(this.stats, this.lives);
+    } else {
+      this.lives--;
+    }
+    ++this.questionIndex;
+    this.nextScreen();
   }
 
   nextScreen() {
@@ -68,21 +79,28 @@ export default class GameScreen {
         Application.showGreeting();
       };
 
-      screenView.onAnswerClick = (answersArray) => {
-        const answer = {
-          isCorrect: checkAnswer(answersArray, question),
-          time: GAME_DATA.TIME - this.time
-        };
-        this.stats.push(checkAnswerTime(answer));
-        if (answer.isCorrect) {
-          this.scores = calculateFinalScores(this.stats, this.lives);
-        } else {
-          this.lives--;
-        }
-        this.questionIndex++;
-        this.nextScreen();
+      screenView.onAnswerClick = (answer) => {
+        this.onAnswer(answer);
       };
 
+      screenView.resizeImages = () => {
+        const images = Array.from(screenView.element.querySelectorAll(`.game__option img`));
+
+        images.forEach((img) => {
+          const image = new Image();
+          image.src = img.src;
+          image.onload = () => {
+            const currentHeight = img.height;
+            img.height = img.naturalHeight * img.width / img.naturalWidth;
+            if (img.height > currentHeight) {
+              img.height = currentHeight;
+              img.width = img.naturalWidth * img.height / img.naturalHeight;
+            }
+          };
+        });
+      };
+
+      screenView.resizeImages();
       this.startTimer(screenView);
       showScreen(screenView);
     } else {

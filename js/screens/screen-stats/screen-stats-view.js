@@ -94,7 +94,7 @@ export default class ScreenStats extends AbstractView {
     }
   })}    
     </div>
-    ${footer}`;
+    ${footer}`.trim();
   }
 
   bind() {
