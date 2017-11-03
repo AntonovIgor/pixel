@@ -1,15 +1,14 @@
 import AbstractView from '../../view.js';
-import questions from '../../data/fakeQuestions';
 import footer from './../../templates/footer';
 import {getHeader} from '../../templates/header';
 import {stats} from './../../templates/stats';
 import {checkAnswer} from '../../engine/check-answer';
 
 export default class ScreenGameOne extends AbstractView {
-  constructor(state) {
+  constructor(state, question) {
     super();
     this.state = state;
-    this.question = questions[state.questionIndex];
+    this.question = question;
     this.time = state.timer.value;
     this.lives = state.lives;
   }
