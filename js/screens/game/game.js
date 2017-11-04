@@ -1,5 +1,4 @@
 import {showScreen} from '../../engine/show-screen';
-import {calculateFinalScores} from '../../engine/calculate-final-scores';
 import {checkAnswerTime} from '../../engine/check-answer-time';
 import ScreenGameOne from '../screen-game-one/screen-game-one-view';
 import ScreenGameTwo from '../screen-game-two/screen-game-two-view';
@@ -12,15 +11,14 @@ export default class GameScreen {
 
   init() {
     this.lives = GAME_DATA.LIVES;
-    this.scores = GAME_DATA.SCORES.LOSE;
     this.questionIndex = 0;
     this.answers = [];
     this.stats = [];
-    this.gamesHistory = [];
     this.timer = new Timer(GAME_DATA.TIME);
     this.stopTimer();
     this.nextScreen();
     this.time = 0;
+    this.isGameLost = false;
   }
 
   startTimer(screen) {
@@ -50,19 +48,22 @@ export default class GameScreen {
       time: GAME_DATA.TIME - this.time
     };
     this.stats.push(checkAnswerTime(userAnswer));
-    if (userAnswer.isCorrect) {
-      this.scores = calculateFinalScores(this.stats, this.lives);
-    } else {
+    if (!userAnswer.isCorrect) {
       this.lives--;
     }
-    ++this.questionIndex;
+    if (this.lives >= 0) {
+      ++this.questionIndex;
+    } else {
+      this.lives = 0;
+      this.isGameLost = true;
+    }
     this.nextScreen();
   }
 
   nextScreen() {
     const question = Application.quests[this.questionIndex];
 
-    if (question && this.lives >= 0) {
+    if (question && !this.isGameLost) {
       const gameType = question.type;
       let screenView = null;
 
@@ -104,7 +105,10 @@ export default class GameScreen {
       showScreen(screenView);
     } else {
       this.stopTimer();
-      Application.showStats(this);
+      Application.showStats({
+        stats: this.stats,
+        lives: this.lives
+      });
     }
   }
 }

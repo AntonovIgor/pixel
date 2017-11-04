@@ -15,10 +15,6 @@ const ControllerId = {
   STATS: `stats`
 };
 
-const saveState = (state) => {
-  return JSON.stringify(state);
-};
-
 const loadState = (dataString) => {
   try {
     return JSON.parse(dataString);
@@ -39,7 +35,7 @@ export default class Application {
           Application.quests = gameData;
           Application.init(gameData);
         }).
-        then(() => splash.stop()).
+        then(splash.stop()).
         catch(window.console.error);
   }
 
@@ -80,6 +76,8 @@ export default class Application {
   }
 
   static showStats(state) {
-    location.hash = `${ControllerId.STATS}?${saveState(state)}`;
+    Loader.saveResults(state).then(() => {
+      location.hash = ControllerId.STATS;
+    });
   }
 }
