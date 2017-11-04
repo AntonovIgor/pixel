@@ -8,17 +8,15 @@ import {calculateFinalScores} from './../../engine/calculate-final-scores';
 const GAME_SCORES = GAME_DATA.SCORES;
 
 export default class ScreenStats extends AbstractView {
-  constructor(state) {
+  constructor(games) {
     super();
-    this.state = state;
-    this.gamesHistory = state.gamesHistory.push({
-      stats: state.stats,
-      lives: state.lives
-    });
+    this.games = games.reverse().slice(0, 5);
   }
 
-  static gameResultTitle(state) {
-    return state.scores > 0 ? `Победа` : `Поражение`;
+  static gameResultTitle(games) {
+    const currentGamesResults = games[0];
+    const totalScores = calculateFinalScores(currentGamesResults.stats, currentGamesResults.lives);
+    return totalScores > 0 ? `Победа` : `Поражение`;
   }
 
   countEntries(array, key) {
@@ -33,8 +31,8 @@ export default class ScreenStats extends AbstractView {
     return `
     ${getHeader()}
     <div class="result">
-      <h1>${ScreenStats.gameResultTitle(this.state)}!</h1>
-      ${this.state.gamesHistory.map((game, index) => {
+      <h1>${ScreenStats.gameResultTitle(this.games)}!</h1>
+      ${this.games.map((game, index) => {
     const rightAnswers = game.stats.filter((answer) => {
       return answer !== GAME_DATA.ANSWER.WRONG;
     });
@@ -92,7 +90,7 @@ export default class ScreenStats extends AbstractView {
             </tr>
           </table>`;
     }
-  })}    
+  }).join(``)}    
     </div>
     ${footer}`.trim();
   }
