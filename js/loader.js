@@ -3,11 +3,11 @@ const USER_NAME = `Evgeniy777`;
 
 export default class Loader {
   static loadData() {
-    return fetch(`${SERVER_URL}/questions`).then((res) => res.json());
+    return fetch(`${SERVER_URL}/questions`).then((res) => res.json()).catch(window.console.error);
   }
 
   static loadResults(name = USER_NAME) {
-    return fetch(`${SERVER_URL}/stats/${name}`).then((res) => res.json());
+    return fetch(`${SERVER_URL}/stats/${name}`).then((res) => res.json()).catch(window.console.error);
   }
 
   static saveResults(data, name = USER_NAME) {

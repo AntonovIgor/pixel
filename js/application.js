@@ -35,7 +35,7 @@ export default class Application {
           Application.quests = gameData;
           Application.init(gameData);
         }).
-        then(() => splash.stop()).
+        then(splash.stop()).
         catch(window.console.error);
   }
 
