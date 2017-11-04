@@ -3,6 +3,9 @@ import GreetingScreen from './screens/screen-greeting/screen-greeting';
 import RulesScreen from './screens/screen-rules/screen-rules';
 import GameScreen from './screens/game/game';
 import StatsScreen from './screens/screen-stats/screen-stats';
+import SplashScreen from './screens/screen-splash/screen-splash';
+import {showScreen} from './engine/show-screen';
+import Loader from './loader';
 
 const ControllerId = {
   INTRO: ``,
@@ -10,14 +13,6 @@ const ControllerId = {
   RULES: `rules`,
   GAME: `game`,
   STATS: `stats`
-};
-
-const routes = {
-  [ControllerId.INTRO]: new IntroScreen(),
-  [ControllerId.GREETING]: new GreetingScreen(),
-  [ControllerId.RULES]: new RulesScreen(),
-  [ControllerId.GAME]: new GameScreen(),
-  [ControllerId.STATS]: new StatsScreen()
 };
 
 const saveState = (state) => {
@@ -33,7 +28,29 @@ const loadState = (dataString) => {
 };
 
 export default class Application {
-  static init() {
+
+  static start() {
+    const splash = new SplashScreen();
+    showScreen(splash);
+    splash.start();
+
+    Loader.loadData().
+        then((gameData) => {
+          Application.quests = gameData;
+          Application.init(gameData);
+        }).
+        then(() => splash.stop()).
+        catch(window.console.error);
+  }
+
+  static init(gameData) {
+    this.routes = {
+      [ControllerId.INTRO]: new IntroScreen(),
+      [ControllerId.GREETING]: new GreetingScreen(),
+      [ControllerId.RULES]: new RulesScreen(),
+      [ControllerId.GAME]: new GameScreen(gameData),
+      [ControllerId.STATS]: new StatsScreen()
+    };
     const hashChangeHandler = () => {
       const hashValue = location.hash.replace(`#`, ``);
       const [id, data] = hashValue.split(`?`);
@@ -44,14 +61,10 @@ export default class Application {
   }
 
   static changeHash(id, data) {
-    const controller = routes[id];
+    const controller = this.routes[id];
     if (controller) {
       controller.init(loadState(data));
     }
-  }
-
-  static showIntro() {
-    location.hash = ControllerId.INTRO;
   }
 
   static showGreeting() {

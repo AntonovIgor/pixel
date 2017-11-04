@@ -7,7 +7,6 @@ import ScreenGameThree from '../screen-game-three/screen-game-three-view';
 import {Timer} from '../../engine/timer';
 import GAME_DATA from '../../data/game-data';
 import Application from '../../application';
-import questions from '../../data/fakeQuestions';
 
 export default class GameScreen {
 
@@ -61,7 +60,7 @@ export default class GameScreen {
   }
 
   nextScreen() {
-    const question = questions[this.questionIndex];
+    const question = Application.quests[this.questionIndex];
 
     if (question && this.lives >= 0) {
       const gameType = question.type;
