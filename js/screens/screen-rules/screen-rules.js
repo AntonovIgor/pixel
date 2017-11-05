@@ -2,7 +2,7 @@ import {showScreen} from './../../engine/show-screen';
 import ScreenRules from './../screen-rules/screen-rules-view';
 import Application from '../../application';
 
-export default class RulesScreen {
+class RulesScreen {
   constructor() {
     this.screen = new ScreenRules();
   }
@@ -19,3 +19,5 @@ export default class RulesScreen {
     };
   }
 }
+
+export default new RulesScreen();

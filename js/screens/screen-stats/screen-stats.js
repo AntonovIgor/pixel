@@ -4,7 +4,7 @@ import Application from '../../application';
 import Loader from '../../loader';
 
 
-export default class StatsScreen {
+class StatsScreen {
   init() {
     this.screen = new ScreenStats();
     showScreen(this.screen);
@@ -17,9 +17,11 @@ export default class StatsScreen {
       Application.showGreeting();
     };
     const playerName = Application.playerName;
-    Loader.loadResults(playerName).
-        then((data) => {
+    Loader.loadResults(playerName)
+        .then((data) => {
           this.screen.resultBox.innerHTML = this.screen.showStats(data);
         });
   }
 }
+
+export default new StatsScreen();
