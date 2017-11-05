@@ -7,7 +7,7 @@ import {Timer} from '../../engine/timer';
 import GAME_DATA from '../../data/game-data';
 import Application from '../../application';
 
-export default class GameScreen {
+class GameScreen {
 
   init() {
     this.lives = GAME_DATA.LIVES;
@@ -15,10 +15,10 @@ export default class GameScreen {
     this.answers = [];
     this.stats = [];
     this.timer = new Timer(GAME_DATA.TIME);
-    this.stopTimer();
-    this.nextScreen();
     this.time = 0;
     this.isGameLost = false;
+    this.stopTimer();
+    this.nextScreen();
   }
 
   startTimer(screen) {
@@ -62,6 +62,8 @@ export default class GameScreen {
 
   nextScreen() {
     const question = Application.quests[this.questionIndex];
+    const name = Application.playerName;
+    this.user = name;
 
     if (question && !this.isGameLost) {
       const gameType = question.type;
@@ -108,7 +110,9 @@ export default class GameScreen {
       Application.showStats({
         stats: this.stats,
         lives: this.lives
-      });
+      }, name);
     }
   }
 }
+
+export default new GameScreen();

@@ -8,15 +8,14 @@ import {calculateFinalScores} from './../../engine/calculate-final-scores';
 const GAME_SCORES = GAME_DATA.SCORES;
 
 export default class ScreenStats extends AbstractView {
-  constructor(games) {
+  constructor() {
     super();
-    this.games = games.reverse().slice(0, 5);
   }
 
   static gameResultTitle(games) {
     const currentGamesResults = games[0];
     const totalScores = calculateFinalScores(currentGamesResults.stats, currentGamesResults.lives);
-    return totalScores > 0 ? `Победа` : `Поражение`;
+    return totalScores > 0 ? GAME_DATA.GAME_RESULT.WIN : GAME_DATA.GAME_RESULT.LOSE;
   }
 
   countEntries(array, key) {
@@ -28,11 +27,17 @@ export default class ScreenStats extends AbstractView {
   }
 
   get template() {
-    return `
-    ${getHeader()}
-    <div class="result">
-      <h1>${ScreenStats.gameResultTitle(this.games)}!</h1>
-      ${this.games.map((game, index) => {
+    return `${getHeader()}
+    <div class="result">Подождите, статистика загружается    
+    </div>
+    ${footer}`;
+  }
+
+  showStats(games) {
+    games = games.reverse().slice(0, 5);
+
+    return `<h1>${ScreenStats.gameResultTitle(games)}!</h1>
+      ${games.map((game, index) => {
     const rightAnswers = game.stats.filter((answer) => {
       return answer !== GAME_DATA.ANSWER.WRONG;
     });
@@ -90,12 +95,11 @@ export default class ScreenStats extends AbstractView {
             </tr>
           </table>`;
     }
-  }).join(``)}    
-    </div>
-    ${footer}`.trim();
+  }).join(``)}`;
   }
 
   bind() {
+    this.resultBox = this.element.querySelector(`.result`);
     const buttonBack = this.element.querySelector(`.back`);
 
     buttonBack.onclick = () => {
