@@ -8,7 +8,7 @@ import {calculateFinalScores} from './../../engine/calculate-final-scores';
 const GAME_SCORES = GAME_DATA.SCORES;
 
 export default class ScreenStats extends AbstractView {
-  constructor(games) {
+  constructor() {
     super();
   }
 
@@ -38,16 +38,16 @@ export default class ScreenStats extends AbstractView {
 
     return `<h1>${ScreenStats.gameResultTitle(games)}!</h1>
       ${games.map((game, index) => {
-      const rightAnswers = game.stats.filter((answer) => {
-        return answer !== GAME_DATA.ANSWER.WRONG;
-      });
-      const totalScores = calculateFinalScores(game.stats, game.lives);
-      const fast = this.countEntries(game.stats, GAME_DATA.ANSWER.FAST);
-      const alive = game.lives;
-      const slow = this.countEntries(game.stats, GAME_DATA.ANSWER.SLOW);
-      const answers = game.stats;
-      if (totalScores > 0) {
-        return `<table class="result__table">
+    const rightAnswers = game.stats.filter((answer) => {
+      return answer !== GAME_DATA.ANSWER.WRONG;
+    });
+    const totalScores = calculateFinalScores(game.stats, game.lives);
+    const fast = this.countEntries(game.stats, GAME_DATA.ANSWER.FAST);
+    const alive = game.lives;
+    const slow = this.countEntries(game.stats, GAME_DATA.ANSWER.SLOW);
+    const answers = game.stats;
+    if (totalScores > 0) {
+      return `<table class="result__table">
               <tr>
                 <td class="result__number">${index + 1}.</td>
                 <td colspan="2">
@@ -81,8 +81,8 @@ export default class ScreenStats extends AbstractView {
                 <td colspan="5" class="result__total  result__total--final">${totalScores}</td>
               </tr>
             </table>`;
-      } else {
-        return `<table class="result__table">
+    } else {
+      return `<table class="result__table">
             <tr>
               <td class="result__number">${index + 1}.</td>
               <td>
@@ -94,8 +94,8 @@ export default class ScreenStats extends AbstractView {
               <td class="result__total  result__total--final">fail</td>
             </tr>
           </table>`;
-      }
-    }).join(``)}`;
+    }
+  }).join(``)}`;
   }
 
   bind() {
