@@ -3,20 +3,23 @@ import {showScreen} from './../../engine/show-screen';
 import Application from '../../application';
 import Loader from '../../loader';
 
+
 export default class StatsScreen {
   init() {
-    Loader.loadResults().
+    this.screen = new ScreenStats();
+    showScreen(this.screen);
+
+    this.screen.onContinueButtonClick = () => {
+      Application.showGreeting();
+    };
+
+    this.screen.onReturnButtonClick = () => {
+      Application.showGreeting();
+    };
+    const playerName = Application.playerName;
+    Loader.loadResults(playerName).
         then((data) => {
-          this.screen = new ScreenStats(data);
-          showScreen(this.screen);
-
-          this.screen.onContinueButtonClick = () => {
-            Application.showGreeting();
-          };
-
-          this.screen.onReturnButtonClick = () => {
-            Application.showGreeting();
-          };
+          this.screen.resultBox.innerHTML = this.screen.showStats(data);
         });
   }
 }

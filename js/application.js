@@ -24,7 +24,6 @@ const loadState = (dataString) => {
 };
 
 export default class Application {
-
   static start() {
     const splash = new SplashScreen();
     showScreen(splash);
@@ -33,18 +32,18 @@ export default class Application {
     Loader.loadData().
         then((gameData) => {
           Application.quests = gameData;
-          Application.init(gameData);
+          Application.init();
         }).
         then(splash.stop()).
         catch(window.console.error);
   }
 
-  static init(gameData) {
+  static init() {
     this.routes = {
       [ControllerId.INTRO]: new IntroScreen(),
       [ControllerId.GREETING]: new GreetingScreen(),
       [ControllerId.RULES]: new RulesScreen(),
-      [ControllerId.GAME]: new GameScreen(gameData),
+      [ControllerId.GAME]: new GameScreen(),
       [ControllerId.STATS]: new StatsScreen()
     };
     const hashChangeHandler = () => {
@@ -76,7 +75,7 @@ export default class Application {
   }
 
   static showStats(state) {
-    Loader.saveResults(state).then(() => {
+    Loader.saveResults(state, this.playerName).then(() => {
       location.hash = ControllerId.STATS;
     });
   }

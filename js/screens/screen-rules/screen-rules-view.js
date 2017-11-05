@@ -39,7 +39,7 @@ export default class ScreenRules extends AbstractView {
     };
 
     playForm.onsubmit = () => {
-      this.onStartGame();
+      this.onStartGame(playerNameField.value);
     };
   }
 }

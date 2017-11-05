@@ -10,7 +10,8 @@ export default class RulesScreen {
   init() {
     showScreen(this.screen);
 
-    this.screen.onStartGame = () => {
+    this.screen.onStartGame = (playerName) => {
+      Application.playerName = playerName;
       Application.showGame();
     };
     this.screen.onReturnButtonClick = () => {

@@ -62,6 +62,8 @@ export default class GameScreen {
 
   nextScreen() {
     const question = Application.quests[this.questionIndex];
+    const name = Application.playerName;
+    this.user = name;
 
     if (question && !this.isGameLost) {
       const gameType = question.type;
@@ -108,7 +110,7 @@ export default class GameScreen {
       Application.showStats({
         stats: this.stats,
         lives: this.lives
-      });
+      }, name);
     }
   }
 }
