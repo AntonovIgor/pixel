@@ -11,8 +11,7 @@ class RulesScreen {
     showScreen(this.screen);
 
     this.screen.onStartGame = (playerName) => {
-      Application.playerName = playerName;
-      Application.showGame();
+      Application.showGame(playerName);
     };
     this.screen.onReturnButtonClick = () => {
       Application.showGreeting();

@@ -1,8 +1,8 @@
 import introScreen from './screens/screen-intro/screen-intro';
 import greetingScreen from './screens/screen-greeting/screen-greeting';
 import rulesScreen from './screens/screen-rules/screen-rules';
-import gameScreen from './screens/game/game';
-import statsScreen from './screens/screen-stats/screen-stats';
+import GameScreen from './screens/game/game';
+import StatsScreen from './screens/screen-stats/screen-stats';
 import SplashScreen from './screens/screen-splash/screen-splash';
 import {showScreen} from './engine/show-screen';
 import Loader from './loader';
@@ -31,20 +31,19 @@ export default class Application {
 
     Loader.loadData()
         .then((gameData) => {
-          Application.quests = gameData;
-          Application.init();
+          Application.init(gameData);
         })
         .then(splash.stop())
         .catch(window.console.error);
   }
 
-  static init() {
+  static init(gameData) {
     this.routes = {
       [ControllerId.INTRO]: introScreen,
       [ControllerId.GREETING]: greetingScreen,
       [ControllerId.RULES]: rulesScreen,
-      [ControllerId.GAME]: gameScreen,
-      [ControllerId.STATS]: statsScreen
+      [ControllerId.GAME]: new GameScreen(gameData),
+      [ControllerId.STATS]: new StatsScreen()
     };
     const hashChangeHandler = () => {
       const hashValue = location.hash.replace(`#`, ``);
@@ -60,6 +59,9 @@ export default class Application {
     if (controller) {
       controller.init(loadState(data));
     }
+    if (data) {
+      this.playerName = data;
+    }
   }
 
   static showIntro() {
@@ -74,12 +76,14 @@ export default class Application {
     location.hash = ControllerId.RULES;
   }
 
-  static showGame() {
-    location.hash = ControllerId.GAME;
+  static showGame(playerName) {
+    this.playerName = playerName;
+    location.hash = `${ControllerId.GAME}?${playerName}`;
+
   }
 
-  static showStats(state) {
-    Loader.saveResults(state, this.playerName)
+  static showStats(state, playerName) {
+    Loader.saveResults(state, playerName)
         .then(() => {
           location.hash = ControllerId.STATS;
         });
