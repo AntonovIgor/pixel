@@ -3,7 +3,6 @@ import {showScreen} from './../../engine/show-screen';
 import Application from '../../application';
 import Loader from '../../loader';
 
-
 export default class StatsScreen {
   init() {
     this.screen = new ScreenStats();
