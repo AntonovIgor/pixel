@@ -5,7 +5,7 @@ import {stats} from './../../templates/stats';
 import GAME_DATA from './../../data/game-data';
 import {checkAnswer} from '../../engine/check-answer';
 
-export default class ScreenGameThree extends AbstractView {
+export default class ScreenGameThreeView extends AbstractView {
   constructor(state, question) {
     super();
     this.state = state;

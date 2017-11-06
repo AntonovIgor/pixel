@@ -1,10 +1,10 @@
 import {showScreen} from './../../engine/show-screen';
-import ScreenGreeting from './../screen-greeting/screen-greeting-view';
+import ScreenGreetingView from './../screen-greeting/screen-greeting-view';
 import Application from '../../application';
 
-class GreetingScreen {
+class ScreenGreeting {
   constructor() {
-    this.screen = new ScreenGreeting();
+    this.screen = new ScreenGreetingView();
   }
 
   init() {
@@ -16,4 +16,4 @@ class GreetingScreen {
   }
 }
 
-export default new GreetingScreen();
+export default new ScreenGreeting();

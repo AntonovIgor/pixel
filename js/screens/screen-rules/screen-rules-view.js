@@ -3,7 +3,7 @@ import footer from './../../templates/footer';
 import GAME_DATA from './../../data/game-data';
 import {getHeader} from '../../templates/header';
 
-export default class ScreenRules extends AbstractView {
+export default class ScreenRulesView extends AbstractView {
 
   get template() {
     return `

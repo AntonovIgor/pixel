@@ -4,7 +4,7 @@ import {getHeader} from '../../templates/header';
 import {stats} from './../../templates/stats';
 import {checkAnswer} from '../../engine/check-answer';
 
-export default class ScreenGameOne extends AbstractView {
+export default class ScreenGameOneView extends AbstractView {
   constructor(state, question) {
     super();
     this.state = state;
@@ -21,16 +21,15 @@ export default class ScreenGameOne extends AbstractView {
     <div class="game">
       <p class="game__task">${this.question.question}</p>
       <form class="game__content">
-      ${answers.map((answer) => {
-    const optIndex = answers.indexOf(answer) + 1;
+      ${answers.map((answer, index) => {
     return `<div class="game__option">
-          <img src="${answer.image.url}" alt="Option ${optIndex}" width="${answer.image.width}" height="${answer.image.height}">
+          <img src="${answer.image.url}" alt="Option ${index + 1}" width="${answer.image.width}" height="${answer.image.height}">
           <label class="game__answer game__answer--photo">
-            <input name="question${optIndex}" type="radio" value="photo">
+            <input name="question${index + 1}" type="radio" value="photo">
             <span>Фото</span>
           </label>
           <label class="game__answer game__answer--paint">
-            <input name="question${optIndex}" type="radio" value="painting">
+            <input name="question${index + 1}" type="radio" value="painting">
             <span>Рисунок</span>
           </label>
         </div>`;

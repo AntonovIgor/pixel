@@ -1,13 +1,13 @@
 import {showScreen} from '../../engine/show-screen';
 import {checkAnswerTime} from '../../engine/check-answer-time';
-import ScreenGameOne from '../screen-game-one/screen-game-one-view';
-import ScreenGameTwo from '../screen-game-two/screen-game-two-view';
-import ScreenGameThree from '../screen-game-three/screen-game-three-view';
+import ScreenGameOneView from '../screen-game-one/screen-game-one-view';
+import ScreenGameTwoView from '../screen-game-two/screen-game-two-view';
+import ScreenGameThreeView from '../screen-game-three/screen-game-three-view';
 import {Timer} from '../../engine/timer';
 import GAME_DATA from '../../data/game-data';
 import Application from '../../application';
 
-export default class GameScreen {
+export default class Game {
   constructor(gameData) {
     this.questions = gameData;
   }
@@ -20,11 +20,11 @@ export default class GameScreen {
     this.timer = new Timer(GAME_DATA.TIME);
     this.time = 0;
     this.isGameLost = false;
-    this.stopTimer();
-    this.nextScreen();
+    this._stopTimer();
+    this._nextScreen();
   }
 
-  startTimer(screen) {
+  _startTimer(screen) {
     const timeBox = screen.element.querySelector(`.game__timer`);
     timeBox.textContent = this.timer.duration;
     this.timeMachine = setInterval(() => {
@@ -37,7 +37,7 @@ export default class GameScreen {
     }, 1000);
   }
 
-  stopTimer() {
+  _stopTimer() {
     if (this.time) {
       this.timer.reset();
       clearInterval(this.timeMachine);
@@ -45,7 +45,7 @@ export default class GameScreen {
   }
 
   onAnswer(answer) {
-    this.stopTimer();
+    this._stopTimer();
     const userAnswer = {
       isCorrect: answer,
       time: GAME_DATA.TIME - this.time
@@ -60,10 +60,10 @@ export default class GameScreen {
       this.lives = 0;
       this.isGameLost = true;
     }
-    this.nextScreen();
+    this._nextScreen();
   }
 
-  nextScreen() {
+  _nextScreen() {
     const question = this.questions[this.questionIndex];
     this.user = Application.playerName;
 
@@ -72,11 +72,11 @@ export default class GameScreen {
       let screenView = null;
 
       if (gameType === GAME_DATA.GAME_TYPE.TWO_OF_TWO) {
-        screenView = new ScreenGameOne(this, question);
+        screenView = new ScreenGameOneView(this, question);
       } else if (gameType === GAME_DATA.GAME_TYPE.TINDER_LIKE) {
-        screenView = new ScreenGameTwo(this, question);
+        screenView = new ScreenGameTwoView(this, question);
       } else if (gameType === GAME_DATA.GAME_TYPE.ONE_OF_THREE) {
-        screenView = new ScreenGameThree(this, question);
+        screenView = new ScreenGameThreeView(this, question);
       }
 
       screenView.onReturnButtonClick = () => {
@@ -105,10 +105,10 @@ export default class GameScreen {
       };
 
       screenView.resizeImages();
-      this.startTimer(screenView);
+      this._startTimer(screenView);
       showScreen(screenView);
     } else {
-      this.stopTimer();
+      this._stopTimer();
       Application.showStats({
         stats: this.stats,
         lives: this.lives

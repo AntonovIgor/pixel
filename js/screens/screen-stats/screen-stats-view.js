@@ -7,7 +7,7 @@ import {calculateFinalScores} from './../../engine/calculate-final-scores';
 
 const GAME_SCORES = GAME_DATA.SCORES;
 
-export default class ScreenStats extends AbstractView {
+export default class ScreenStatsView extends AbstractView {
 
   static gameResultTitle(games) {
     const currentGamesResults = games[0];
@@ -15,12 +15,9 @@ export default class ScreenStats extends AbstractView {
     return totalScores > 0 ? GAME_DATA.GAME_RESULT.WIN : GAME_DATA.GAME_RESULT.LOSE;
   }
 
-  countEntries(array, key) {
-    let count = 0;
-    array.forEach((element) => {
-      count = (element === key) ? ++count : count;
-    });
-    return count;
+  static countEntries(array, key) {
+    const arr = array.filter((element) => element === key);
+    return arr.length;
   }
 
   get template() {
@@ -33,15 +30,15 @@ export default class ScreenStats extends AbstractView {
   showStats(games) {
     games = games.reverse().slice(0, 5);
 
-    return `<h1>${ScreenStats.gameResultTitle(games)}!</h1>
+    return `<h1>${ScreenStatsView.gameResultTitle(games)}!</h1>
       ${games.map((game, index) => {
     const rightAnswers = game.stats.filter((answer) => {
       return answer !== GAME_DATA.ANSWER.WRONG;
     });
     const totalScores = calculateFinalScores(game.stats, game.lives);
-    const fast = this.countEntries(game.stats, GAME_DATA.ANSWER.FAST);
+    const fast = ScreenStatsView.countEntries(game.stats, GAME_DATA.ANSWER.FAST);
     const alive = game.lives;
-    const slow = this.countEntries(game.stats, GAME_DATA.ANSWER.SLOW);
+    const slow = ScreenStatsView.countEntries(game.stats, GAME_DATA.ANSWER.SLOW);
     const answers = game.stats;
     if (totalScores > 0) {
       return `<table class="result__table">

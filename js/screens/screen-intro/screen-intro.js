@@ -1,10 +1,10 @@
 import {showScreen} from './../../engine/show-screen';
-import ScreenIntro from './../screen-intro/screen-intro-view';
+import ScreenIntroView from './../screen-intro/screen-intro-view';
 import Application from '../../application';
 
-class IntroScreen {
+class ScreenIntro {
   constructor() {
-    this.screen = new ScreenIntro();
+    this.screen = new ScreenIntroView();
   }
 
   init() {
@@ -16,4 +16,4 @@ class IntroScreen {
   }
 }
 
-export default new IntroScreen();
+export default new ScreenIntro();

@@ -2,7 +2,7 @@ import AbstractView from '../../view.js';
 import footer from './../../templates/footer';
 import GAME_DATA from './../../data/game-data';
 
-export default class ScreenGreeting extends AbstractView {
+export default class ScreenGreetingView extends AbstractView {
   get template() {
     return `<div class="greeting central--blur">
       <div class="greeting__logo"><img src="img/logo_big.png" width="201" height="89" alt="Pixel Hunter"></div>

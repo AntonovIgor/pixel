@@ -2,10 +2,10 @@ import GAME_DATA from '../data/game-data';
 
 const GAME_SCORES = GAME_DATA.SCORES;
 
-export const calculateFinalScores = (answersArray, lives) => {
-  const answersLength = answersArray.length;
+export const calculateFinalScores = (answers, lives) => {
+  const answersLength = answers.length;
   let scores = 0;
-  answersArray.forEach((answer) => {
+  answers.forEach((answer) => {
     let timeScores = 0;
 
     if (answersLength && answer !== GAME_DATA.ANSWER.WRONG) {

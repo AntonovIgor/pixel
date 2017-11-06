@@ -1,6 +1,6 @@
 import AbstractView from '../../view';
 
-export default class SplashScreen extends AbstractView {
+export default class ScreenSplash extends AbstractView {
   constructor() {
     super();
     this.cursor = 0;

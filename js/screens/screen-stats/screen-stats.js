@@ -1,11 +1,11 @@
-import ScreenStats from '../screen-stats/screen-stats-view';
+import ScreenStatsView from '../screen-stats/screen-stats-view';
 import {showScreen} from './../../engine/show-screen';
 import Application from '../../application';
 import Loader from '../../loader';
 
-export default class StatsScreen {
+export default class ScreenStats {
   init() {
-    this.screen = new ScreenStats();
+    this.screen = new ScreenStatsView();
     showScreen(this.screen);
 
     this.screen.onContinueButtonClick = () => {
