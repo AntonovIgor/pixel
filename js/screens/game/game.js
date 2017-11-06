@@ -7,7 +7,10 @@ import {Timer} from '../../engine/timer';
 import GAME_DATA from '../../data/game-data';
 import Application from '../../application';
 
-class GameScreen {
+export default class GameScreen {
+  constructor(gameData) {
+    this.questions = gameData;
+  }
 
   init() {
     this.lives = GAME_DATA.LIVES;
@@ -61,9 +64,8 @@ class GameScreen {
   }
 
   nextScreen() {
-    const question = Application.quests[this.questionIndex];
-    const name = Application.playerName;
-    this.user = name;
+    const question = this.questions[this.questionIndex];
+    this.user = Application.playerName;
 
     if (question && !this.isGameLost) {
       const gameType = question.type;
@@ -110,9 +112,7 @@ class GameScreen {
       Application.showStats({
         stats: this.stats,
         lives: this.lives
-      }, name);
+      }, this.user);
     }
   }
 }
-
-export default new GameScreen();

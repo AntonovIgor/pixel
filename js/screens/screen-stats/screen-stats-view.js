@@ -8,9 +8,6 @@ import {calculateFinalScores} from './../../engine/calculate-final-scores';
 const GAME_SCORES = GAME_DATA.SCORES;
 
 export default class ScreenStats extends AbstractView {
-  constructor() {
-    super();
-  }
 
   static gameResultTitle(games) {
     const currentGamesResults = games[0];
