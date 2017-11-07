@@ -9,7 +9,7 @@ export const calculateFinalScores = (answers, lives) => {
   const isAllAnswers = answersLength === GAME_DATA.ANSWERS_MINIMUM;
   const isLessWrongAnswers = wrongAnswersLength <= GAME_DATA.LIVES;
   let scores = 0;
-  
+
   answers.forEach((answer) => {
     let timeScores = 0;
 
