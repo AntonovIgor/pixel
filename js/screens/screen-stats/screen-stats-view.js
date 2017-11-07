@@ -15,11 +15,6 @@ export default class ScreenStatsView extends AbstractView {
     return totalScores > 0 ? GAME_DATA.GAME_RESULT.WIN : GAME_DATA.GAME_RESULT.LOSE;
   }
 
-  static countEntries(array, key) {
-    const arr = array.filter((element) => element === key);
-    return arr.length;
-  }
-
   get template() {
     return `${getHeader()}
     <div class="result">Подождите, статистика загружается    
@@ -99,5 +94,10 @@ export default class ScreenStatsView extends AbstractView {
     buttonBack.onclick = () => {
       this.onReturnButtonClick();
     };
+  }
+
+  static countEntries(array, key) {
+    const arr = array.filter((element) => element === key);
+    return arr.length;
   }
 }
