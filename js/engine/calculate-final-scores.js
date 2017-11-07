@@ -4,6 +4,7 @@ const GAME_SCORES = GAME_DATA.SCORES;
 
 export const calculateFinalScores = (answers, lives) => {
   const answersLength = answers.length;
+  const wrongAnswersLength = answers.filter((answer) => answer === GAME_DATA.ANSWER.WRONG).length;
   let scores = 0;
   answers.forEach((answer) => {
     let timeScores = 0;
@@ -18,6 +19,6 @@ export const calculateFinalScores = (answers, lives) => {
     }
   });
 
-  return ((lives >= 0) && answersLength === GAME_DATA.ANSWERS_MINIMUM) ?
+  return ((lives >= 0) && answersLength === GAME_DATA.ANSWERS_MINIMUM && wrongAnswersLength <= GAME_DATA.LIVES) ?
     scores + lives * GAME_SCORES.EXTRA : GAME_SCORES.LOSE;
 };
