@@ -4,7 +4,7 @@ import {getHeader} from '../../templates/header';
 import {stats} from './../../templates/stats';
 import {checkAnswer} from '../../engine/check-answer';
 
-export default class ScreenGameTwo extends AbstractView {
+export default class ScreenGameTwoView extends AbstractView {
   constructor(state, question) {
     super();
     this.state = state;

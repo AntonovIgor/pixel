@@ -1,10 +1,10 @@
 import {showScreen} from './../../engine/show-screen';
-import ScreenRules from './../screen-rules/screen-rules-view';
+import ScreenRulesView from './../screen-rules/screen-rules-view';
 import Application from '../../application';
 
-class RulesScreen {
+class ScreenRules {
   constructor() {
-    this.screen = new ScreenRules();
+    this.screen = new ScreenRulesView();
   }
 
   init() {
@@ -19,4 +19,4 @@ class RulesScreen {
   }
 }
 
-export default new RulesScreen();
+export default new ScreenRules();

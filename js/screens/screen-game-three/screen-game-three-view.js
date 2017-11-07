@@ -5,7 +5,9 @@ import {stats} from './../../templates/stats';
 import GAME_DATA from './../../data/game-data';
 import {checkAnswer} from '../../engine/check-answer';
 
-export default class ScreenGameThree extends AbstractView {
+const PAINTING = `Найдите рисунок среди изображений`;
+
+export default class ScreenGameThreeView extends AbstractView {
   constructor(state, question) {
     super();
     this.state = state;
@@ -47,6 +49,9 @@ export default class ScreenGameThree extends AbstractView {
       option.onclick = () => {
         option.classList.add(`game__option--selected`);
         const answersArray = gameOptions.map((opt) => {
+          if (this.question.question === PAINTING) {
+            return (opt.classList.contains(`game__option--selected`)) ? GAME_DATA.ANSWER_TYPE.PAINTING : GAME_DATA.ANSWER_TYPE.PHOTO;
+          }
           return (opt.classList.contains(`game__option--selected`)) ? GAME_DATA.ANSWER_TYPE.PHOTO : GAME_DATA.ANSWER_TYPE.PAINTING;
         });
         this.onAnswerClick(checkAnswer(answersArray, this.question));

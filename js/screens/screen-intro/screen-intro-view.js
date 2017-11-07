@@ -2,7 +2,7 @@ import AbstractView from '../../view.js';
 import footer from './../../templates/footer';
 import GAME_DATA from './../../data/game-data';
 
-export default class ScreenIntro extends AbstractView {
+export default class ScreenIntroView extends AbstractView {
 
   get template() {
     return `<div id="main" class="central__content">

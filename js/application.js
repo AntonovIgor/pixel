@@ -1,9 +1,9 @@
-import introScreen from './screens/screen-intro/screen-intro';
-import greetingScreen from './screens/screen-greeting/screen-greeting';
-import rulesScreen from './screens/screen-rules/screen-rules';
-import GameScreen from './screens/game/game';
-import StatsScreen from './screens/screen-stats/screen-stats';
-import SplashScreen from './screens/screen-splash/screen-splash';
+import screenIntro from './screens/screen-intro/screen-intro';
+import screenGreeting from './screens/screen-greeting/screen-greeting';
+import screenRules from './screens/screen-rules/screen-rules';
+import Game from './screens/game/game';
+import ScreenStats from './screens/screen-stats/screen-stats';
+import ScreenSplash from './screens/screen-splash/screen-splash';
 import {showScreen} from './engine/show-screen';
 import Loader from './loader';
 
@@ -25,12 +25,13 @@ const loadState = (dataString) => {
 
 export default class Application {
   static start() {
-    const splash = new SplashScreen();
+    const splash = new ScreenSplash();
     showScreen(splash);
     splash.start();
 
     Loader.loadData()
         .then((gameData) => {
+          Loader.loadImages(gameData);
           Application.init(gameData);
         })
         .then(splash.stop())
@@ -39,11 +40,11 @@ export default class Application {
 
   static init(gameData) {
     this.routes = {
-      [ControllerId.INTRO]: introScreen,
-      [ControllerId.GREETING]: greetingScreen,
-      [ControllerId.RULES]: rulesScreen,
-      [ControllerId.GAME]: new GameScreen(gameData),
-      [ControllerId.STATS]: new StatsScreen()
+      [ControllerId.INTRO]: screenIntro,
+      [ControllerId.GREETING]: screenGreeting,
+      [ControllerId.RULES]: screenRules,
+      [ControllerId.GAME]: new Game(gameData),
+      [ControllerId.STATS]: new ScreenStats()
     };
     const hashChangeHandler = () => {
       const hashValue = location.hash.replace(`#`, ``);

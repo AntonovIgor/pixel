@@ -11,7 +11,6 @@ export const checkAnswerTime = (answer) => {
     } else {
       return GAME_DATA.ANSWER.CORRECT;
     }
-  } else {
-    return GAME_DATA.ANSWER.WRONG;
   }
+  return GAME_DATA.ANSWER.WRONG;
 };
