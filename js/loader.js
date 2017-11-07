@@ -22,11 +22,10 @@ export default class Loader {
 
   static loadImages(data) {
     const urls = data.map((question) => {
-      const field = question.answers.find((field) => field.hasOwnProperty(`image`));
-      return field.image.url;
+      return question.answers.find((field) => field.hasOwnProperty(`image`)).image.url;
     });
 
-    const promises = urls.forEach((url) => {
+    const promises = urls.map((url) => {
       return new Promise((resolve) => {
         const image = document.createElement(`img`);
         image.src = url;
