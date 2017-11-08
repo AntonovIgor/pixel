@@ -24,6 +24,25 @@ export default class Game {
     this._nextScreen();
   }
 
+  onAnswer(answer) {
+    this._stopTimer();
+    const userAnswer = {
+      isCorrect: answer,
+      time: GAME_DATA.TIME - this.time
+    };
+    this.stats.push(checkAnswerTime(userAnswer));
+    if (!userAnswer.isCorrect) {
+      this.lives--;
+    }
+    if (this.lives >= 0) {
+      ++this.questionIndex;
+    } else {
+      this.lives = 0;
+      this.isGameLost = true;
+    }
+    this._nextScreen();
+  }
+
   _startTimer(screen) {
     const timeBox = screen.element.querySelector(`.game__timer`);
     timeBox.textContent = this.timer.duration;
@@ -42,25 +61,6 @@ export default class Game {
       this.timer.reset();
       clearInterval(this.timeMachine);
     }
-  }
-
-  onAnswer(answer) {
-    this._stopTimer();
-    const userAnswer = {
-      isCorrect: answer,
-      time: GAME_DATA.TIME - this.time
-    };
-    this.stats.push(checkAnswerTime(userAnswer));
-    if (!userAnswer.isCorrect) {
-      this.lives--;
-    }
-    if (this.lives >= 0) {
-      ++this.questionIndex;
-    } else {
-      this.lives = 0;
-      this.isGameLost = true;
-    }
-    this._nextScreen();
   }
 
   _nextScreen() {
