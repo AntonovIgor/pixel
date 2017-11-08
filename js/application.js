@@ -30,11 +30,11 @@ export default class Application {
     splash.start();
 
     Loader.loadData()
+        .then(Loader.loadImages)
         .then((gameData) => {
-          Loader.loadImages(gameData);
           Application.init(gameData);
         })
-        .then(splash.stop())
+        .then(() => splash.stop())
         .catch(window.console.error);
   }
 

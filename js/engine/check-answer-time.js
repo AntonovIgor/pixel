@@ -8,9 +8,8 @@ export const checkAnswerTime = (answer) => {
       return GAME_DATA.ANSWER.FAST;
     } else if (answer.time > GAME_TIME.SLOW) {
       return GAME_DATA.ANSWER.SLOW;
-    } else {
-      return GAME_DATA.ANSWER.CORRECT;
     }
+    return GAME_DATA.ANSWER.CORRECT;
   }
   return GAME_DATA.ANSWER.WRONG;
 };
